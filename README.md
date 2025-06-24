@@ -4,3 +4,14 @@ A collaborative, open-source project for extracting and analysing insights from 
 **Edu-Video-Insights** is an open-source research project focused on understanding how the design of educational videos influences student engagement and retention. The repository provides a structured dataset of educational video metadata, automatically extracted video/audio characteristics, and public engagement metrics. It also includes tools for collecting, analysing, and extending this dataset, with the goal of supporting data-driven improvements in video-based learning across higher education.
 
 Whether you're an educator, researcher, or developer, this project offers a collaborative platform for contributing data, exploring learning analytics, and developing new insights into effective video content design.
+
+This directory contains supporting documentation files for the `edu-video-insights` project. Use these resources to understand the data structure, contribution process, tagging conventions, and validation requirements.
+
+### 📚 Documentation Index
+
+- [Submission Schema](SUBMISSION_SCHEMA.md)
+- [Metadata Schema](SCHEMA_METADATA.md)
+- [Characteristics Schema](SCHEMA_CHARACS.md)
+- [Metrics Schema](SCHEMA_METRICS.md)
+- [Contribution Guide](CONTRIBUTING.md)
+- [Dataset Tag Convention](METADATA_TAGS.md)
