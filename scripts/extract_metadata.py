@@ -1,8 +1,8 @@
 """
 Module: extract_metadata.py
 Author: Mohamed Tolba
-Date Created: 2025-06-25
-Last Updated: 2025-06-25
+Date Created: 24-06-2025
+Last Updated: 24-06-2025
 
 Description:
     Script that loads video IDs from video_submission.csv and uses the MetadataExtractor

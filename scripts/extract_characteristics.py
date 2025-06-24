@@ -1,8 +1,8 @@
 """
 Module: extract_characteristics.py
 Author: Mohamed Tolba
-Date Created: 2025-06-25
-Last Updated: 2025-06-25
+Date Created: 24-06-2025
+Last Updated: 24-06-2025
 
 Description:
     Orchestrates the extraction of video characteristics by calling the CharacteristicsExtractor

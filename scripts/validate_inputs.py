@@ -1,8 +1,8 @@
 """
 Module: validate_inputs.py
 Author: Mohamed Tolba
-Date Created: 2025-06-25
-Last Updated: 2025-06-25
+Date Created: 24-06-2025
+Last Updated: 24-06-2025
 
 Description:
     Validates the structure and content of all new_*.csv files. Checks for required fields,
