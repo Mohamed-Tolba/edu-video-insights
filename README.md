@@ -10,8 +10,8 @@ This directory contains supporting documentation files for the `edu-video-insigh
 ### 📚 Documentation Index
 
 - [Submission Schema](docs/SUBMISSION_SCHEMA.md)
-- [Metadata Schema](../docs/SCHEMA_METADATA.md)
-- [Characteristics Schema](../docs/SCHEMA_CHARACS.md)
-- [Metrics Schema](../docs/SCHEMA_METRICS.md)
-- [Contribution Guide](../docs/CONTRIBUTING.md)
-- [Dataset Tag Convention](../docs/METADATA_TAGS.md)
+- [Metadata Schema](docs/SCHEMA_METADATA.md)
+- [Characteristics Schema](docs/SCHEMA_CHARACS.md)
+- [Metrics Schema](docs/SCHEMA_METRICS.md)
+- [Contribution Guide](docs/CONTRIBUTING.md)
+- [Dataset Tag Convention](docs/METADATA_TAGS.md)
