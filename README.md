@@ -15,3 +15,10 @@ This directory contains supporting documentation files for the `edu-video-insigh
 - [Metrics Schema](docs/SCHEMA_METRICS.md)
 - [Contribution Guide](docs/CONTRIBUTING.md)
 - [Dataset Tag Convention](docs/METADATA_TAGS.md)
+
+### ⚙️ Environment Setup
+
+To install the required Python packages for this project, run the following command in your terminal:
+
+```bash
+pip install -r requirements.txt
