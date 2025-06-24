@@ -21,7 +21,7 @@ import re  # Import regular expressions module for parsing the video ID
 # The re module in Python stands for "regular expressions". 
 # It provides powerful tools for searching, matching, extracting, or replacing text patterns in strings.
 
-class VBL_Data:
+class MetadataExtractor:
     """
     A class to represent a VBL_Data (Video-based Learning_Data) object.
     This is a placeholder class that can be extended with specific attributes and methods.
@@ -250,7 +250,7 @@ class VBL_Data:
 if __name__ == "__main__":
     # Example usage of the VBL_Data class
     API_KEY = "AIzaSyAItxG2Mye_NlmofGrmpX50pB-g6txm3Kw"  # Alex's YouTube Data API key
-    vbl_data_obj = VBL_Data(API_KEY)
+    vbl_data_obj = MetadataExtractor(API_KEY)
 
     video_url = input("Enter YouTube video URL: ")  # Ask user to enter a YouTube video URL
     video_id = vbl_data_obj.extract_video_id(video_url)  # Call the function to fetch and display video info
