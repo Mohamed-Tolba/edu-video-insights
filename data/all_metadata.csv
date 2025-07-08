@@ -1,1 +1,1 @@
-video_id,video_url,title,duration_sec,subject_area,video_type,course_code,unit_level,week_number,speaker_name,channel_id,channel_name,upload_date,institution_name,dataset_tag
+dataset_tag,video_id,institution_name,speaker_name,course_code,unit_level,week_number,year,video_type,subject_area,video_url,title,duration_sec,channel_id,channel_name,published_at

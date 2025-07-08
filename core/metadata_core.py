@@ -136,7 +136,7 @@ class MetadataExtractor:
             return "Video not found."
         return response["items"][0]["snippet"]["description"]
     
-    def get_video_channel_title(self, video_id: str) -> str:
+    def get_video_channel_name(self, video_id: str) -> str:
         """
         Get the channel title of the video using its ID.
         """
@@ -145,7 +145,7 @@ class MetadataExtractor:
             return "Video not found."
         return response["items"][0]["snippet"]["channelTitle"]
     
-    def get_video_duration(self, video_id: str) -> str:
+    def get_video_duration_sec(self, video_id: str) -> str:
         """
         Get the duration of the video using its ID.
         """
@@ -259,8 +259,8 @@ if __name__ == "__main__":
     video_published_at = vbl_data_obj.get_video_published_at(video_id)  # Get the published date and time of the video
     video_channel_id = vbl_data_obj.get_video_channel_id(video_id)  # Get the channel ID of the video
     video_description = vbl_data_obj.get_video_description(video_id)  # Get the video description
-    video_channel_title = vbl_data_obj.get_video_channel_title(video_id)  # Get the channel title of the video
-    video_duration = vbl_data_obj.get_video_duration(video_id)  # Get the video duration
+    video_channel_name = vbl_data_obj.get_video_channel_name(video_id)  # Get the channel title of the video
+    video_duration = vbl_data_obj.get_video_duration_sec(video_id)  # Get the video duration
     video_caption_status = vbl_data_obj.get_video_caption_status(video_id)  # Check if captions are available
     video_views = vbl_data_obj.get_video_views(video_id)  # Get the view count of the video
     video_likes = vbl_data_obj.get_video_likes(video_id)  # Get the like count of the video
@@ -274,7 +274,7 @@ if __name__ == "__main__":
     print(f"Video Published At: {video_published_at}")  # Print the published date and time of the video
     print(f"Video Channel ID: {video_channel_id}")  # Print the channel ID of the video
     # print(f"Video Description: {video_description}")  # Print the video description
-    print(f"Video Channel Title: {video_channel_title}")  # Print the channel title of the video
+    print(f"Video Channel Title: {video_channel_name}")  # Print the channel title of the video
     print(f"Video Duration: {video_duration} s")  # Print the video duration
     print(f"Video Captions Available: {'Yes' if video_caption_status else 'No'}")  # Print caption availability
     print(f"Video Views: {video_views}")  # Print the view count of the video

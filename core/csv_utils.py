@@ -18,6 +18,9 @@ Tested:
  - adding new rows.
  - populate row by field.
  - automated sorting by the field in ascending or descending order.
+ - remove row(s) by field.
+ - clearing all rows in the CSV file, keeping only the header.
+ - find the value in a specific field (column) from the row where another field matches a given value
 
 Not Tested / Under Development:
  - Example usage in the main block.
@@ -49,6 +52,26 @@ class CSVHandler:
         matches = self.df.index[self.df[match_field] == match_value].tolist()
         return matches if matches else None
 
+    def get_cell_value_by_match(self, match_field: str, match_value: str, target_field: str):
+        """
+        Returns the value in target_field where match_field equals match_value.
+        Only the last matching row is considered.
+        """
+        if match_field not in self.df.columns:
+            raise ValueError(f"'{match_field}' column does not exist.")
+        if target_field not in self.df.columns:
+            raise ValueError(f"'{target_field}' column does not exist.")
+
+        matches = self.df[self.df[match_field] == match_value]
+
+        if matches.empty:
+            print(f"⚠️ No match found for {match_field} == '{match_value}'")
+            return None
+
+        value = matches.iloc[-1][target_field]  # last match; change to iloc[0] for first
+        return value
+
+
     def populate_row_by_field(self, match_field: str, match_value: str, row_data: dict) -> bool:
         """
         Finds the row where match_field == match_value and updates it using row_data.
@@ -75,7 +98,9 @@ class CSVHandler:
 
     def add_new_row(self, new_row: dict):
         """Append a new row (dictionary) to the CSV."""
-        new_row_df = pd.DataFrame([new_row]) # Convert the dictionary to a DataFrame
+        # Ensure only known columns are used
+        filtered_row = {col: new_row.get(col, np.nan) for col in self.df.columns} # Build a row dictionary aligned with DataFrame columns, using np.nan for any missing fields
+        new_row_df = pd.DataFrame([filtered_row]) # Convert the dictionary to a DataFrame
         self.df = pd.concat([self.df, new_row_df], ignore_index=True) # Concatenate the new row DataFrame to the existing DataFrame
         self.save()
         
@@ -93,6 +118,25 @@ class CSVHandler:
         required_fields = ["video_id"]
         self.df = self.df.drop_duplicates(subset = required_fields, keep='last')  # keep the last occurrence of each duplicate
         self.df = self.df.reset_index(drop = True)  # Reset the index after dropping duplicates
+        self.save()
+
+    def remove_row_by_field(self, match_field: str, match_value: str):
+        """
+        Removes all rows where the given match_field equals the specified match_value.
+        """
+        if match_field not in self.df.columns:
+            raise ValueError(f"'{match_field}' column does not exist in the CSV.")
+
+        # Identify rows to remove
+        condition = self.df[match_field] == match_value # Create a boolean mask where the field matches the given value
+        num_removed = condition.sum() # Count how many rows match the condition (True values)
+        print(f"Condition: {condition}")
+        if num_removed == 0:
+            print(f"⚠️ No rows found where {match_field} == '{match_value}'")
+            return
+
+        # Filter out matching rows
+        self.df = self.df[~condition] # Keep only rows where the condition is False (i.e. remove the matched rows)
         self.save()
 
     def remove_extra_columns(self):
@@ -122,6 +166,15 @@ class CSVHandler:
         self.df = self.df.reset_index(drop = True)  # Reset the index after sorting
         self.save()
 
+    def clear_all_rows(self, msg ="🧹 All data removed."):
+        """
+        Delete all rows in the CSV file, keeping only the header.
+        """
+        # Keep only the column headers, drop all data rows
+        self.df = self.df.iloc[0:0]
+        self.save()
+        print(msg)
+ 
         
 if __name__ == "__main__":
     # Example usage
@@ -163,3 +216,9 @@ if __name__ == "__main__":
 
     handler.sort_by_field("dataset_tag", ascending = False)  # Sort by the field in ascending or descending order
     print(handler.df)
+
+    handler.remove_row_by_field("video_id", "Test_value_1")  # Remove the row where video_id == "Test_value_1"
+    print(handler.df)
+
+    # handler.clear_all_rows()  # Clear all rows in the CSV file, keeping only the header
+    # print(handler.df)  # Should print an empty DataFrame with only the header

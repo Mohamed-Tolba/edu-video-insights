@@ -1,1 +1,5 @@
-video_id,retention_rate,avg_view_duration,total_views,likes,comments,dataset_tag
+dataset_tag,video_id,retention_rate,avg_view_duration,total_views,likes,comments
+newcastle_mech1750_lecture_agregg_2024,GxmDYSewCws,86.0965658826282,0.883241566768671,902,14,2
+newcastle_mech1750_lecture_agregg_2024,fAmHbxGDxeQ,84.2521657342211,1.56281883899951,1249,8,0
+newcastle_mech1750_lecture_agregg_2024,Upitsn2JRp0,54.2723556047828,0.54635521116904,860,9,0
+newcastle_mech1750_lecture_agregg_2024,RrXK6zi0AN4,49.1942569886804,1.1644794772725,2084,12,2
