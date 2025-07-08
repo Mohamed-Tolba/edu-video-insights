@@ -9,5 +9,14 @@ Description:
     consistent video IDs, correct data types, and missing values.
 
     Prints validation errors or warnings to help users correct their data.
+
+Tested:
+
+Not Tested / Under Development:
+
+ To add:
+ - automated generation of dataset tags (maybe add this functionality in the validate_inputs.py file)
+ - automated calulation of retention rate given average view duration or vice versa (maybe add this functionality in the validate_inputs.py file)
+
 """
 
