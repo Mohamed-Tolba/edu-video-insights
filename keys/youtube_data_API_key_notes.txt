@@ -1,0 +1,2 @@
+    API_KEY = "AIzaSyBb1gDmCnge668A6FG3cppBlEib3CsQ4zc"  # Mohamed's YouTube Data API key - generated for a project named "Educational Videos Project 1".
+    # 'AIzaSyAItxG2Mye_NlmofGrmpX50pB-g6txm3Kw' is an API key provided by Alex

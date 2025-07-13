@@ -16,13 +16,12 @@ import os
 # Add the parent directory (project/) to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from core.keys_manager import load_api_key  # Import the function to load the API key
 from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
 
 if __name__ == "__main__":
-    API_KEY = "AIzaSyBb1gDmCnge668A6FG3cppBlEib3CsQ4zc"  # Mohamed's YouTube Data API key - generated for a project named "Educational Videos Project 1".
-    # 'AIzaSyAItxG2Mye_NlmofGrmpX50pB-g6txm3Kw' is an API key provided by Alex
-    
+    API_KEY = load_api_key("../keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
     MetadataExtractor_obj = MetadataExtractor(API_KEY)
     
     video_submission_file_path = '../data/video_submission.csv'

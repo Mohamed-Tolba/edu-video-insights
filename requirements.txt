@@ -1,6 +1,6 @@
 google-api-python-client
 isodate
 youtube-transcript-api
-pandas
 numpy
-streamlit
+streamlit==1.46.1
+pandas==2.1.3

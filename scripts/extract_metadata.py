@@ -7,19 +7,15 @@ Last Updated: 13-07-2025
 Description:
     Script that loads video IDs from video_submission.csv and uses the MetadataExtractor
     (from core/metadata_core.py) to fetch and write metadata for each video into new_metadata.csv.
-
-To test/develop:
-- I think there is a smarter way to copy data from video_submission.csv to new_metadata.csv
 """
 
 import sys
 import os
-import tkinter as tk
-from tkinter import simpledialog
 
 # Add the parent directory (project/) to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from core.keys_manager import load_api_key  # Import the function to load the API key
 from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
 
@@ -42,45 +38,55 @@ def generate_dataset_tag(video_user_inputs: dict) -> str:
     return dataset_tag
 
 
-if __name__ == "__main__":
-    API_KEY = "AIzaSyBb1gDmCnge668A6FG3cppBlEib3CsQ4zc"  # Mohamed's YouTube Data API key - generated for a project named "Educational Videos Project 1".
-    # 'AIzaSyAItxG2Mye_NlmofGrmpX50pB-g6txm3Kw' is an API key provided by Alex
-
-    MetadataExtractor_obj = MetadataExtractor(API_KEY)
-
-    user_data_file_path = '../data/user_data.csv'
+def populate_video_submission_file(submission_data: dict, user_data_file_path: str = '../data/user_data.csv') -> None:
+    """
+    Populates the video_submission.csv file with video IDs and user inputs.
+    This function reads video IDs from user_data.csv and creates a new video_submission.csv file.
+    """
     user_data_file_handler = CSVHandler(user_data_file_path)
 
     video_submission_file_path = '../data/video_submission.csv'
     video_submission_file_handler = CSVHandler(video_submission_file_path)
 
-    new_metadata_file_path = '../data/new_metadata.csv'
-    new_metadata_file_handler = CSVHandler(new_metadata_file_path)
-
     # Clear all data in the video submission file, keeping only the header
     video_submission_file_handler.clear_all_rows(msg="Any data in the video submission file has been deleted")  # Clear all data in the video submission file, keeping only the header
     video_submission_file_handler.clean_csv()  # Clean the video submission file by removing invalid rows and duplicates, and extra unnamed columns
     print("Creating video submission file...")
+  
     # Loop through each video ID in the user data file and populate the video submission file
     video_ids = user_data_file_handler.df['Content'].tolist()[1:]  # Fetch all video IDs from the video user data file
     for video_id in video_ids:  # Loop through each video ID
         if video_id:
             video_user_inputs = {
                 "video_id": video_id,  # Store the video ID
-                "institution_name": "Newcastle",                
-                "speaker_name": "a_gregg",
-                "course_code": "MECH1750",
-                "unit_level": "year1",
-                "week_number": "week01",
-                "year": "2024",
-                "video_type": "lecture",
-                "subject_area": "Mechanical Engineering",
+                "institution_name": submission_data.get("institution_name", "unknown"),  # Get the institution name from the user inputs    
+                "speaker_name": submission_data.get("speaker_name", "unknown"),
+                "course_code": submission_data.get("course_code", "unknown"),
+                "unit_level": submission_data.get("unit_level", "unknown"),
+                "year": submission_data.get("year", "unknown"),
+                "video_type": submission_data.get("video_type", "unknown"),
+                "subject_area": submission_data.get("subject_area", "unknown"),
                 "average_percentage_viewed": user_data_file_handler.get_cell_value_by_match("Content", video_id, "Average percentage viewed (%)"), # Get the average_percentage_viewed from the user data file
             }
             video_user_inputs["dataset_tag"] = generate_dataset_tag(video_user_inputs)
             video_submission_file_handler.add_new_row(video_user_inputs)  # Populate the row with the video user inputs
     video_submission_file_handler.clean_csv()  # Clean the video submission file by removing invalid rows and duplicates, and extra unnamed columns
 
+def populate_new_metadata_file(submission_data, user_data_file_path: str = '../data/user_data.csv') -> None:
+    """
+    Populates the new_metadata.csv file with video metadata.
+    This function reads video IDs from video_submission.csv and creates a new new_metadata.csv file.
+    """
+    API_KEY = load_api_key("../keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
+    MetadataExtractor_obj = MetadataExtractor(API_KEY)
+
+    populate_video_submission_file(submission_data, user_data_file_path)  # Ensure the video submission file is populated first
+
+    video_submission_file_path = '../data/video_submission.csv'
+    video_submission_file_handler = CSVHandler(video_submission_file_path)
+    
+    new_metadata_file_path = '../data/new_metadata.csv'
+    new_metadata_file_handler = CSVHandler(new_metadata_file_path)
 
     new_metadata_file_handler.clear_all_rows(msg = "Any data in the new_metadata_file has been deleted")  # Clear all data in the new metadata file, keeping only the header
     new_metadata_file_handler.clean_csv()
@@ -96,7 +102,6 @@ if __name__ == "__main__":
                 "speaker_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "speaker_name"), # Get the subject area of the video from the video submission file
                 "course_code": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "course_code"), # Get the subject area of the video from the video submission file
                 "unit_level": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "unit_level"), # Get the subject area of the video from the video submission file
-                "week_number": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "week_number"), # Get the subject area of the video from the video submission file
                 "year": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "year"), # Get the subject area of the video from the video submission file
                 "video_type": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "video_type"), # Get the subject area of the video from the video submission file
                 "subject_area": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "subject_area"), # Get the subject area of the video from the video submission file            
@@ -109,3 +114,16 @@ if __name__ == "__main__":
             }
             new_metadata_file_handler.add_new_row(video_metadata)  # Populate the row with the video metadata
     new_metadata_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
+
+if __name__ == "__main__":
+    submission_data = {
+        "institution_name": "newcastle",
+        "speaker_name": "a_gregg",
+        "course_code": "Mech1750",
+        "unit_level": "level_1",
+        "year": "2024",
+        "video_type": "Lecture",
+        "subject_area": "Mechanical Engineering"
+    }
+    populate_new_metadata_file(submission_data)  # Call the function to populate the new metadata file
+    print("New metadata file populated successfully.")
