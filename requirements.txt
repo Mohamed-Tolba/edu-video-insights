@@ -3,3 +3,4 @@ isodate
 youtube-transcript-api
 pandas
 numpy
+streamlit
