@@ -37,9 +37,8 @@ if __name__ == "__main__":
         if video_id:  # Check if the video ID is not empty
             video_metrics = {
                 "video_id": video_id,  # Store the video ID
-                "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the subject area of the video from the video submission file
-                "retention_rate": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "retention_rate"), # Get the subject area of the video from the video submission file
-                "avg_view_duration": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "avg_view_duration"), # Get the subject area of the video from the video submission file
+                "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
+                "average_percentage_viewed": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "average_percentage_viewed"), # Get the average_percentage_viewed from the video submission file
                 "total_views": MetadataExtractor_obj.get_video_views(video_id),  # Get the published date and time of the video
                 "likes": MetadataExtractor_obj.get_video_likes(video_id),  # Get the published date and time of the video
                 "comments": MetadataExtractor_obj.get_video_comments(video_id) # Get the published date and time of the video
@@ -47,7 +46,7 @@ if __name__ == "__main__":
             new_metrics_file_handler.add_new_row(video_metrics)  # Populate the row with the video metadata
     
     new_metrics_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
-    print(new_metrics_file_handler.df)  # Print the DataFrame containing the new metadata
+    # print(new_metrics_file_handler.df)  # Print the DataFrame containing the new metadata
 
 
 """

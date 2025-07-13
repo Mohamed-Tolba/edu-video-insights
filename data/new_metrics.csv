@@ -1,5 +1,196 @@
-dataset_tag,video_id,retention_rate,avg_view_duration,total_views,likes,comments
-newcastle_mech1750_lecture_agregg_2024,GxmDYSewCws,86.0965658826282,0.883241566768671,902,14,2
-newcastle_mech1750_lecture_agregg_2024,fAmHbxGDxeQ,84.2521657342211,1.56281883899951,1249,8,0
-newcastle_mech1750_lecture_agregg_2024,Upitsn2JRp0,54.2723556047828,0.54635521116904,860,9,0
-newcastle_mech1750_lecture_agregg_2024,RrXK6zi0AN4,49.1942569886804,1.1644794772725,2084,12,2
+dataset_tag,video_id,average_percentage_viewed,total_views,likes,comments
+newcastle_mech1750_lecture_year1_agregg_2024,RrXK6zi0AN4,45.77,2084,12,2
+newcastle_mech1750_lecture_year1_agregg_2024,j6SeaP91jZc,36.09,1885,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,Um9PPMuyds8,50.01,1656,14,1
+newcastle_mech1750_lecture_year1_agregg_2024,U-lYJH3xS6A,42.01,1463,6,1
+newcastle_mech1750_lecture_year1_agregg_2024,ZauBNS2gmyA,8.93,1460,No like count available,2
+newcastle_mech1750_lecture_year1_agregg_2024,ySd7_VybSsQ,51.19,1369,14,0
+newcastle_mech1750_lecture_year1_agregg_2024,lztv4AfG0zo,69.38,1290,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,fAmHbxGDxeQ,74.33,1249,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,DItWhCUwQZc,45.43,1204,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,BC9gf4nF_XU,6.09,1199,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,RepS7Q1muC0,45.5,1193,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,SKoHssz5FXA,49.32,1106,12,0
+newcastle_mech1750_lecture_year1_agregg_2024,qiIQsyIoZJg,65.64,1096,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,cg81nqeBIjw,72.88,1095,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,0GDz_U-ZrKc,65.81,1093,7,1
+newcastle_mech1750_lecture_year1_agregg_2024,M8Y4lxajI3c,62.84,1033,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,bNdbjNVh1z0,67.49,1023,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,iiAUwHWYNPw,51.47,1019,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,7sNCYzYo_T8,78.87,961,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,M8kszjlUcZs,77.58,951,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,b_OFklZ5gzI,54.09,928,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,EQkdbTVKAA8,78.01,924,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,jVLn12stmwI,65.94,917,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,Xl8zNgXuDxI,70.15,906,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,GxmDYSewCws,67.27,902,14,2
+newcastle_mech1750_lecture_year1_agregg_2024,pfsGQ35t_nI,65.54,869,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,lTdv3rEQz5E,48.99,861,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,Upitsn2JRp0,73.11,860,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,7svuQtCSJJs,80.35,840,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,xjrnZOSaGwA,71.2,825,3,1
+newcastle_mech1750_lecture_year1_agregg_2024,klFUk25F_DY,59.41,820,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,qYQa8scJjQw,74.71,808,6,1
+newcastle_mech1750_lecture_year1_agregg_2024,yFLtNlDKPpE,17.89,802,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,XDKGPwTxu1k,64.78,799,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,hQLuNhgrl7I,64.43,788,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,q2Hgxjv9Uxg,68.39,779,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,fKfHIl0QrtY,67.47,777,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,iWELjCYB9Sk,66.78,767,2,1
+newcastle_mech1750_lecture_year1_agregg_2024,TLsh_uapQ3Y,67.8,764,11,0
+newcastle_mech1750_lecture_year1_agregg_2024,3yuubFyM09g,65.18,756,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,SXrXL8Bc9Gk,66.13,753,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,MEiRBPCfv70,65.15,737,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,rDpBVrfIqBc,75.95,735,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,w3C3B6XM1Fk,75.8,734,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,QoZXQp498Tk,64.96,735,8,0
+newcastle_mech1750_lecture_year1_agregg_2024,6Y24GJBtoi0,66.57,722,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,-82KvZnJMnQ,69.26,717,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,SEwgjVj6oJk,49.81,712,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,5FR2InTP0pI,6.27,691,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,pEc0ApnP0f4,71.83,690,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,xFNNEYclvis,60.9,688,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,XecidyghmdQ,71.78,686,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,eTOLcZtYQBw,63.54,679,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,aUbbtay2gJk,64.56,666,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,bRnYqx51NLQ,76.07,663,3,3
+newcastle_mech1750_lecture_year1_agregg_2024,CTzVe5LPgfI,79.02,658,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,-XOj8ODLkP4,65.38,650,3,1
+newcastle_mech1750_lecture_year1_agregg_2024,00sUWLBhK9E,20.79,647,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,giahfgYn6CQ,73.91,647,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,jIN9UVZ_Ttg,46.59,646,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,cpTQnXZF-Po,65.37,644,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,w3Qy6r0rOVg,79.25,635,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,yytmPfR8Hr8,77.99,634,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,26dBMUlaHJ8,70.57,631,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,SfWWA1DhifM,72.81,627,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,naLNdZ4pVaQ,69.2,618,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,LVgXCA5pkns,73.08,613,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,fe7zKIxtmWc,77.1,613,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,v6EwT5TB6Ak,82.56,607,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,DkRcrKDJ3f0,78.13,600,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,QgvNlgWubKk,73.85,600,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,3XO3Ro75FSY,12.07,592,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,VZ8MlDfBagY,10.21,590,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,R5GVD_tzt6A,81.04,582,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,LMYnX5OArlI,19.53,571,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,otCFPfAZqb0,73.86,566,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,tGqy7OFc09w,79.27,556,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,QI0Myi45MFo,76.62,550,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,3WvmJN4Ft3w,69.4,548,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,P6GzWeu9VGA,77.03,545,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,o0qv42G_Enk,82.09,545,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,0M-MrNDOcGA,20.13,543,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,av3PnE_3wWE,75.31,543,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,7GpktGWiqsk,18.84,530,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,Tr0AqoKIUjA,60.72,526,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,cs1k_62dA4k,81.04,525,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,besVGB6cPDg,78.49,518,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,aDpeyTDW3Io,64.51,515,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,VPm23vOkp-U,72.8,514,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,l60ktEyuXIQ,67.81,514,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,Bi9V5Yx8wbk,81.77,512,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,SqXqqFs8o6Y,77.32,511,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,a_HtseEewXY,74.88,511,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,6lS4rYzkNDg,73.13,504,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,5zEhEwfIJOk,73.43,503,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,THyN7O5cLh8,9.31,503,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,6vULH16v9FE,73.94,501,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,m8vyaqOHSOs,81.76,498,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,PnBtwiUWXtk,76.41,487,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,T5E4bmw6U_Q,10.53,487,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,99of0XP9yOc,21.48,485,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,2PP_a-tDJAY,74.48,484,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,7eRRQHbVccY,59.75,482,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,1ScOB8qlH5U,77.66,473,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,HKSdW1aHM0w,73.54,473,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,nsnBsUlj-_I,67.44,473,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,0GPtRiEc5gY,69.38,470,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,Si9oIxskrtQ,64.0,469,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,stNOqGDYej4,79.17,463,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,QxytA0RKJSk,18.19,462,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,YjKFcSm_ikI,8.01,463,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,OUeqx8U9Q6w,10.52,451,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,ZxiN1Lr7oRU,83.58,447,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,WOW91dxAN2c,19.85,443,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,i6Q7QVgDz_0,20.34,434,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,g7DLJg6V1ZA,15.47,430,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,ePbaeTmXi9I,75.57,427,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,9WKZxJG51rY,41.93,413,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,aVSJgqtAojQ,9.68,408,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,loOxRX9dFmg,17.94,399,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,W5CTGEj051E,75.28,393,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,ivYxeMLkV5M,25.73,392,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,B4oR1QUqLjY,25.47,391,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,R8NuxxwOhIY,12.68,390,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,wcefk9R8iM4,23.44,380,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,PN-s3VTj85M,50.89,369,7,0
+newcastle_mech1750_lecture_year1_agregg_2024,VOtYrHu8TPk,18.55,364,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,fIYSjh42fK4,20.06,364,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,YS-OP3M1l54,49.55,358,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,49cMEc-fszo,62.54,341,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,K-ZUePstoAg,21.51,337,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,XQZHAF1CXuk,16.36,337,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,aaVZiFGXM0I,21.67,324,No like count available,2
+newcastle_mech1750_lecture_year1_agregg_2024,Dkd6Lc7DMAg,23.39,323,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,Sn2HBHFljHI,28.36,320,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,tgbGjXY60zI,29.06,320,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,aGSRO2MJSTk,27.22,316,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,PcjCk1ODIgA,39.71,303,10,2
+newcastle_mech1750_lecture_year1_agregg_2024,iGJ0dr45IfQ,17.52,288,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,XWhyH5Nv5t0,27.72,287,6,0
+newcastle_mech1750_lecture_year1_agregg_2024,iKvd78jprOs,17.89,266,No like count available,2
+newcastle_mech1750_lecture_year1_agregg_2024,nHqgoce-i-I,56.6,260,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,3fEziJt3yWg,32.82,257,18,0
+newcastle_mech1750_lecture_year1_agregg_2024,OVtqxv6INjc,20.56,251,No like count available,1
+newcastle_mech1750_lecture_year1_agregg_2024,lqUf5jiZYBM,12.08,205,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,LM1TBzQfCnI,46.54,187,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,97O_MiyXktA,40.0,175,4,2
+newcastle_mech1750_lecture_year1_agregg_2024,I7GiGDDoVZ4,34.81,165,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,4mA-PJvr1qc,17.13,153,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,JbukdD0QnhM,5.64,148,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,X8aqt--lIKY,33.46,146,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,Nk2bU8rEhkw,34.51,142,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,C6ThGxWpevY,33.85,137,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,Y1f4iofFGjU,32.75,132,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,X1vzSgWntpk,41.16,128,9,0
+newcastle_mech1750_lecture_year1_agregg_2024,9QtQTa4lt88,30.13,118,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,LlTrdkvW4ME,42.55,118,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,CtWKzhbX22g,34.16,116,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,jx387CfEPgE,46.36,114,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,CpTtQQ9tyww,19.7,114,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,8dyx0QsvXKM,45.02,105,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,uW58Ef54zVI,38.26,105,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,fefSZgT5ICE,45.29,104,5,0
+newcastle_mech1750_lecture_year1_agregg_2024,B3qOuvfC9Xc,49.58,103,No like count available,0
+newcastle_mech1750_lecture_year1_agregg_2024,5qIDcv4iXvg,46.21,92,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,OzB3e3yIZBA,36.64,87,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,quXKFFlCOUc,55.16,86,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,q9QmwwRmWiw,48.22,83,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,9ssJBXakMOg,70.1,77,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,zntKdrMSbY4,101.93,66,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,HGw74Gjf8Sc,70.63,65,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,c-5XKB2okD8,52.41,64,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,jy4Lc9qgwrM,51.61,59,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,3x76TsTEeEk,52.6,58,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,gPbvohL3q4g,66.05,57,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,I0ZKwSDMRHI,53.44,55,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,QmzqJE8GEOM,50.91,54,2,2
+newcastle_mech1750_lecture_year1_agregg_2024,aUmaBGBPYH0,13.88,53,4,0
+newcastle_mech1750_lecture_year1_agregg_2024,9MV-67FXLEQ,58.92,52,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,C-S9Y0R2JPE,63.62,52,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,FGz0C8z8Uno,63.96,51,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,aY5CK4lYYeM,61.1,50,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,KjZTnY-2lPE,47.61,49,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,XZ9nGsf-Xxc,64.88,47,3,0
+newcastle_mech1750_lecture_year1_agregg_2024,Nacwk8ufnfU,58.59,46,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,slkGf9j0a0c,61.12,41,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,TvOUcQybKWs,52.13,38,1,1
+newcastle_mech1750_lecture_year1_agregg_2024,l2kTCE7ElOQ,55.88,38,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,YncHoM8nR4E,68.25,37,2,0
+newcastle_mech1750_lecture_year1_agregg_2024,LdOI2Zd6NNw,64.37,34,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,tfp3fRqwJYM,56.4,32,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,Olfd_3wSYG0,61.12,29,1,0
+newcastle_mech1750_lecture_year1_agregg_2024,wz3xQ1p-ps0,60.75,29,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,-ZvhjdRb_Us,30.21,16,0,0
+newcastle_mech1750_lecture_year1_agregg_2024,BQjXsvsgol4,77.56,16,0,0
