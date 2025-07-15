@@ -130,7 +130,7 @@ class CSVHandler:
         # Identify rows to remove
         condition = self.df[match_field] == match_value # Create a boolean mask where the field matches the given value
         num_removed = condition.sum() # Count how many rows match the condition (True values)
-        print(f"Condition: {condition}")
+        # print(f"Condition: {condition}")
         if num_removed == 0:
             print(f"⚠️ No rows found where {match_field} == '{match_value}'")
             return

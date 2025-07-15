@@ -44,14 +44,12 @@ def generate_dataset_tag(video_user_inputs: dict) -> str:
     return dataset_tag
 
 
-def populate_video_submission_file(submission_data: dict, user_data_file_path: str = 'data/user_data.csv') -> None:
+def populate_video_submission_file(submission_data: dict, user_data_file_path: str = 'data/user_data.csv', video_submission_file_path: str = 'data/video_submission.csv') -> None:
     """
     Populates the video_submission.csv file with video IDs and user inputs.
     This function reads video IDs from user_data.csv and creates a new video_submission.csv file.
     """
     user_data_file_handler = CSVHandler(user_data_file_path)
-
-    video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'
     video_submission_file_handler = CSVHandler(video_submission_file_path)
 
     # Clear all data in the video submission file, keeping only the header
@@ -78,17 +76,14 @@ def populate_video_submission_file(submission_data: dict, user_data_file_path: s
             video_submission_file_handler.add_new_row(video_user_inputs)  # Populate the row with the video user inputs
     video_submission_file_handler.clean_csv()  # Clean the video submission file by removing invalid rows and duplicates, and extra unnamed columns
 
-def populate_new_metadata_file(video_submission_file_path = 'data/video_submission.csv') -> None:
+def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = 'data/video_submission.csv', new_metadata_file_path: str = 'data/new_metadata.csv') -> None:
     """
     Populates the new_metadata.csv file with video metadata.
     This function reads video IDs from video_submission.csv and creates a new new_metadata.csv file.
     """
-    API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
     MetadataExtractor_obj = MetadataExtractor(API_KEY)
 
     video_submission_file_handler = CSVHandler(video_submission_file_path)
-    
-    new_metadata_file_path = parent_dir + '/' + 'data/new_metadata.csv'
     new_metadata_file_handler = CSVHandler(new_metadata_file_path)
 
     new_metadata_file_handler.clear_all_rows(msg = "Any data in the new_metadata_file has been deleted")  # Clear all data in the new metadata file, keeping only the header
@@ -114,6 +109,9 @@ def populate_new_metadata_file(video_submission_file_path = 'data/video_submissi
                 "channel_id": MetadataExtractor_obj.get_video_channel_id(video_id),  # Get the channel ID of the video
                 "channel_name": MetadataExtractor_obj.get_video_channel_name(video_id),  # Get the channel title of the video
                 "published_at": MetadataExtractor_obj.get_video_published_at(video_id),  # Get the published date and time of the video
+                "total_views": MetadataExtractor_obj.get_video_views(video_id),  # Get the published date and time of the video
+                "likes": MetadataExtractor_obj.get_video_likes(video_id),  # Get the published date and time of the video
+                "comments": MetadataExtractor_obj.get_video_comments(video_id) # Get the published date and time of the video
             }
             new_metadata_file_handler.add_new_row(video_metadata)  # Populate the row with the video metadata
     new_metadata_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
@@ -122,7 +120,7 @@ if __name__ == "__main__":
     submission_data = {
         "institution_name": "newcastle",
         "speaker_name": "a_gregg",
-        "course_code": "Mech1750",
+        "course_code": "ENGG2440",
         "unit_level": "level_1",
         "year": "2024",
         "video_type": "Lecture",
@@ -130,7 +128,10 @@ if __name__ == "__main__":
     }
     user_data_file_path = parent_dir + '/' + 'data/user_data.csv'  # Path to the user data file
     video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'  # Path to the video submission
-    populate_video_submission_file(submission_data, user_data_file_path)  # Call the function to populate the video submission file
+    new_metadata_file_path = parent_dir + '/' + 'data/new_metadata.csv'  # Path to the new metadata file
+    
+    API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
+    populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)  # Call the function to populate the video submission file
     print("Video submission file populated successfully.")
-    populate_new_metadata_file(video_submission_file_path)  # Call the function to populate the new metadata file
+    populate_new_metadata_file(API_KEY, video_submission_file_path, new_metadata_file_path)  # Call the function to populate the new metadata file
     print("New metadata file populated successfully.")

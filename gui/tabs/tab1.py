@@ -39,7 +39,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
             <ol>
                 <li>Click on <strong>Advanced Mode</strong></li>
                 <li>Change the metric to <strong>Average Percentage Viewed</strong></li>
-                <li>Set time period to <strong>Lifetime</strong></li>
+                <li>Set time period as required</li>
                 <li>Click <strong>Export CSV</strong> (top-right corner)</li>
             </ol>
             </p>
@@ -94,7 +94,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                     st.error(f"❌ The following fields are missing: {', '.join(missing_fields)}")
                 else:
                     video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'
-                    populate_video_submission_file(submission_data, user_data_file_path)
+                    populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)
                     st.success("✅ Submission file prepared successfully!")
                     # Read CSV using pandas
                     df = pd.read_csv(video_submission_file_path)

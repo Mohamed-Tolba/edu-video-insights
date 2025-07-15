@@ -9,6 +9,11 @@ Description:
     Allows users to update the local GitHub repository, view and run available Python scripts,
     and display their outputs interactively. Designed to support the workflow of metadata 
     processing, retention analysis, and machine learning integration.
+
+To do:
+    - Consider giving the user the option to select which metadata to extract.
+    - Consider giving the user the option to select which metrics to extract/use.
+    - Consider giving the user the option to select which dataset to use for analysis.
 """
 # Streamlit is a tool that lets you turn your Python scripts into interactive web apps — easily, quickly, and with very little code.
 # streamlit run streamlit_app.py
@@ -67,7 +72,7 @@ with tab1:
 # ---- Tab 2: Extract Videos Metadata and Retention Metrics ----
 with tab2:
     st.header("🛠️ Extract Video Metadata")
-    render_tab2(parent_dir)  # Render the second tab for extracting video metadata
+    render_tab2(parent_dir, API_KEY)  # Render the second tab for extracting video metadata
 
 # ---- Tab 3: ??? ----
 with tab3:

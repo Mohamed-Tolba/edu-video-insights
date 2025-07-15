@@ -2,7 +2,7 @@
 Module: extract_metrics.py
 Author: Mohamed Tolba
 Date Created: 24-06-2025
-Last Updated: 8-07-2025
+Last Updated: 15-07-2025
 
 Description:
     Calls the MetricsExtractor from core/metrics_core.py to collect and write
@@ -13,23 +13,24 @@ Description:
 import sys
 import os
 
-# Add the parent directory (project/) to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Build the absolute path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-from core.keys_manager import load_api_key  # Import the function to load the API key
-from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
+# Add to Python module search path
+sys.path.append(parent_dir)
+
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
 
-if __name__ == "__main__":
-    API_KEY = load_api_key("../keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
-    MetadataExtractor_obj = MetadataExtractor(API_KEY)
-    
-    video_submission_file_path = '../data/video_submission.csv'
+def extract_metrics(video_submission_file_path: str = 'data/video_submission.csv', new_metrics_file_path: str = 'data/new_metrics.csv') -> None:
+    """
+    Extracts video metrics from the video submission file and writes them to a new metrics file.
+    """
+    video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'
     video_submission_file_handler = CSVHandler(video_submission_file_path)
-    
-    new_metrics_file_path = '../data/new_metrics.csv'
+
+    new_metrics_file_path = parent_dir + '/' + 'data/new_metrics.csv'
     new_metrics_file_handler = CSVHandler(new_metrics_file_path)
-    
+
     new_metrics_file_handler.clear_all_rows(msg = "Any data in the new_metrics_file has been deleted")  # Clear all data in the new metrics file, keeping only the header
     video_ids = video_submission_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file
     for video_id in video_ids:  # Loop through each video ID
@@ -38,14 +39,14 @@ if __name__ == "__main__":
                 "video_id": video_id,  # Store the video ID
                 "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
                 "average_percentage_viewed": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "average_percentage_viewed"), # Get the average_percentage_viewed from the video submission file
-                "total_views": MetadataExtractor_obj.get_video_views(video_id),  # Get the published date and time of the video
-                "likes": MetadataExtractor_obj.get_video_likes(video_id),  # Get the published date and time of the video
-                "comments": MetadataExtractor_obj.get_video_comments(video_id) # Get the published date and time of the video
             }
             new_metrics_file_handler.add_new_row(video_metrics)  # Populate the row with the video metadata
     
     new_metrics_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
-    # print(new_metrics_file_handler.df)  # Print the DataFrame containing the new metadata
+
+if __name__ == "__main__":
+    extract_metrics()  # Call the function to extract metrics from the video submission file
+    print("Metrics extraction completed successfully.")
 
 
 """
