@@ -8,10 +8,10 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """
-    st.subheader("📊 Export the channel metrics from YouTube Studio")
+    st.subheader("📊 Step 1: Download the video IDs and required metrics from your YouTube channel")
 
     # Input YouTube URL
-    youtube_url = st.text_input("Paste your YouTube Channel URL (e.g., https://www.youtube.com/channel/UCxxxx...), then press Enter:")
+    youtube_url = st.text_input("Paste a URL for any video in your channel (e.g., https://www.youtube.com/channel/UCxxxx...), then press Enter:")
 
     # Extract channel ID
     channel_id = None
@@ -47,7 +47,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
             unsafe_allow_html=True
         )
 
-    st.subheader("📤 Upload your CSV file")
+    st.subheader("📤 Step 2: Upload your CSV file")
     # File uploader widget (CSV only)
     uploaded_file = st.file_uploader("Choose a CSV file to upload", type=["csv"])
 
@@ -65,12 +65,13 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
             df.index = pd.Index(range(1, len(df) + 1))
 
             # Display dataframe
-            st.subheader("🧾 Check the contents of the uploaded CSV file below:")
+            st.markdown("🧾 The content of the uploaded CSV file can be seen below:")
             st.dataframe(df)
             
             # Submission metadata inputs
-            st.markdown("### 📝 Preparing a submission file for the data extraction and analysis")
-            st.markdown("### Fill in the following details for the uploaded data")
+            # st.markdown("### 📝 Preparing a submission file for the data extraction and analysis")
+            # st.markdown("### Fill in the following details for the uploaded data")
+            st.subheader("Step 3: Fill in the following details for the uploaded data")
             institution_name = st.text_input("Institution Name (e.g., Monash)")
             speaker_name = st.text_input("Speaker Name (e.g., M_Tolba)")
             course_code = st.text_input("Course Code (e.g., TRC3200)")
@@ -88,7 +89,8 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                 "subject_area": subject_area}
 
              # Add a button to extract metadata from the uploaded CSV
-            if st.button("Prepare and show the final submission file"):
+            st.subheader("Step 4: Do a final check for all the data before proceeding")
+            if st.button("Prepare and check the final submission file"):
                 missing_fields = [k for k, v in submission_data.items() if v is None or v == ""]
                 if missing_fields:
                     st.error(f"❌ The following fields are missing: {', '.join(missing_fields)}")
@@ -103,7 +105,8 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                     df.index = pd.Index(range(1, len(df) + 1))
 
                     # Display dataframe
-                    st.subheader("🧾 Check the contents of the prepared CSV file below")
+                    st.markdown("""🧾 Check the contents of the prepared CSV file below. If any of the data is incorrect,
+                    please download the CSV file, fix it and then upload it again in the next tab.""")
                     st.dataframe(df)
 
                     # Offer download button

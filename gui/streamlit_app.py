@@ -11,7 +11,8 @@ Description:
     processing, retention analysis, and machine learning integration.
 
 To do:
-    - Consider giving the user the option to select which metadata to extract.
+    - Consider allowing the user to upload their submission file.
+    Consider giving the user the option to select which metadata to extract.
     - Consider giving the user the option to select which metrics to extract/use.
     - Consider giving the user the option to select which dataset to use for analysis.
 """
@@ -59,14 +60,13 @@ This GUI helps educators and researchers investigate how video design impacts st
 if 'tab_index' not in st.session_state:
     st.session_state.tab_index = 0
 
-tabs = st.tabs(["📤 Upload user data", "🛠️ Extract video metadata", "🔍 Extract video characteristics", "📊 ML insights"])
+tabs = st.tabs(["📤 Import user data", "🛠️ Extract video metadata", "🔍 Extract video characteristics", "📊 ML insights"])
 tab1, tab2, tab3, tab4 = tabs
 current_tab = tabs[st.session_state.tab_index]
 
 ## ---- Tab 1: Upload CSV and Prepare the submission file ----
 with tab1:
-    st.title("📤 Upload User Data")
-    st.header("Uploading and Preparing New Video Data")
+    st.title("📤 Prepare and Upload your Data")
     render_tab1(MetadataExtractor_obj, parent_dir)  # Render the first tab for uploading CSV files and preparing submission data
 
 # ---- Tab 2: Extract Videos Metadata and Retention Metrics ----
