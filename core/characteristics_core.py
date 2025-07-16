@@ -21,20 +21,14 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add to Python module search path
 sys.path.append(parent_dir)
 
+from pytube import YouTube  # Importing YouTube class from pytube for video handling
 from core.keys_manager import load_api_key  # Import the function to load the API key
 from core.metadata_core import MetadataExtractor
 
 class CharacsExtractor:
     def __init__(self, API_KEY: str):
         self.MetadataExtractor_obj = MetadataExtractor(API_KEY)
-        # self.video_path = video_path
-        # self.characteristics = {
-        #     'speaking_speed': None,
-        #     'slide_change_frequency': None,
-        #     'caption_availability': None,
-        #     'audio_clarity': None,
-        #     'tone_variability': None
-        # }
+        
     def get_video_duration_min(self, video_id: str) -> float:
         """
         Get the duration of the video in minutes.
@@ -72,7 +66,30 @@ class CharacsExtractor:
         else:
             return None
         
-    
+    def download_youtube_video(self, video_id: str, save_dir: str = ".", resolution: str = "720p") -> str:
+        """
+        Downloads a YouTube video by video ID as an MP4 file.
+
+        Args:
+            video_id (str): YouTube video ID.
+            save_dir (str): Directory to save the downloaded video.
+            resolution (str): Desired resolution (default '720p').
+
+        Returns:
+            str: Full file path of the downloaded video.
+        """
+        video_url = self.MetadataExtractor_obj.construct_video_url(video_id)
+        yt = YouTube(video_url)  # Create a YouTube object with the video URL
+        # Select the highest available resolution not exceeding the requested one
+        stream = yt.streams.filter(progressive=True, file_extension='mp4').order_by(resolution).desc().first()
+        
+        if not stream:
+            raise ValueError(f"No suitable video stream found for {video_url}")
+
+        file_path = stream.download(output_path=save_dir, filename=f"{video_id}.mp4")
+
+        print(f"✅ Downloaded video to: {file_path}")
+        return file_path
 
 if __name__ == "__main__":
     API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
@@ -100,6 +117,9 @@ if __name__ == "__main__":
         print(f"Speaking speed for video {video_id}: {speaking_speed} words per minute")
     else:
         print(f"Could not calculate speaking speed for video {video_id}. Check duration and word count.")
+
+    CharacsExtractor_obj.download_youtube_video(video_id, save_dir=".", resolution="720p")  # Download the video
+    
     # Example usage
     # video_path = "example_video.mp4"
     # extractor = CharacteristicsExtractor(video_path)
