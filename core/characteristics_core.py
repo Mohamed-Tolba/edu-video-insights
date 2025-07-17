@@ -138,7 +138,7 @@ class CharacsExtractor:
             if start_sec >= skip_start_sec and end_sec <= (total_duration_sec - skip_end_sec):
                 filtered_scenes.append((start_time, end_time))
 
-        # print(filtered_scenes)
+        print(filtered_scenes)
         # Return total number of detected scene changes
         return len(filtered_scenes)
     
