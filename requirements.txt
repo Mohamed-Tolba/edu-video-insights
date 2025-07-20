@@ -1,8 +1,11 @@
 google-api-python-client
 isodate
 youtube-transcript-api
-numpy
+numpy==2.2.6
 streamlit==1.46.1
 pandas==2.1.3
 yt_dlp
 scenedetect[opencv]
+moviepy==2.1.2
+scipy
+matplotlib==3.10.3
