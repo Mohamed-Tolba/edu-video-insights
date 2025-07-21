@@ -24,6 +24,7 @@ sys.path.append(parent_dir)
 from core.keys_manager import load_api_key  # Import the function to load the API key
 from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
+from scripts.create_temp_data_files import *
 
 def generate_dataset_tag(video_user_inputs: dict) -> str:
     """
@@ -143,6 +144,17 @@ if __name__ == "__main__":
     # submission_data = {
     #     "institution_name": "newcastle",
     #     "speaker_name": "a_gregg",
+    #     "course_code": "ENGG2440",
+    #     "course_name": "Modelling and Control",
+    #     "unit_level": "level_2",
+    #     "year": "2025",
+    #     "video_type": "WE",
+    #     "subject_area": "Mechanical Engineering"
+    # }
+
+    # submission_data = {
+    #     "institution_name": "newcastle",
+    #     "speaker_name": "a_gregg",
     #     "course_code": "MECH1750",
     #     "course_name": "Engineering Materials 1",
     #     "unit_level": "level_1",
@@ -155,6 +167,9 @@ if __name__ == "__main__":
     video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'  # Path to the video submission
     new_metadata_file_path = parent_dir + '/' + 'temp/new_metadata.csv'  # Path to the new metadata file
     
+    create_video_submission_csv(video_submission_file_path)
+    create_new_metadata_csv(new_metadata_file_path)
+
     API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
     populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)  # Call the function to populate the video submission file
     print("Video submission file populated successfully.")

@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
+import csv
 
 # Add the parent directory (project/) to the Python path
 from scripts.extract_metadata import *  # Import the function to populate new metadata file
+from scripts.create_temp_data_files import *
 
-def render_tab1(MetadataExtractor_obj, parent_dir):
+def render_tab1_1(MetadataExtractor_obj, parent_dir, user_id):
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """
@@ -57,8 +59,8 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
 
         try:
             # Read CSV using pandas
-            df = pd.read_csv(uploaded_file)
-            user_data_file_path = parent_dir + '/' + 'temp/user_data.csv'
+            df = pd.read_csv(uploaded_file) 
+            user_data_file_path = parent_dir + '/' + f'temp/user_data_{user_id}.csv'
             df.to_csv(user_data_file_path, index=False)  # Save to a local file for further processing
 
             # Change index to start from 1 instead of 0
@@ -97,7 +99,8 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                 if missing_fields:
                     st.error(f"❌ The following fields are missing: {', '.join(missing_fields)}")
                 else:
-                    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'
+                    video_submission_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'
+                    create_video_submission_csv(video_submission_file_path)
                     populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)
                     st.success("✅ Submission file prepared successfully!")
                     # Read CSV using pandas
@@ -116,7 +119,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                         st.download_button(
                             label="📥 Download Submission File",
                             data=f,
-                            file_name="video_submission.csv",
+                            file_name=f"video_submission_{user_id}.csv",
                             mime="text/csv"
                         )
 

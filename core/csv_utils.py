@@ -178,7 +178,7 @@ class CSVHandler:
         
 if __name__ == "__main__":
     # Example usage
-    file_path = '../data/video_submission.csv'  # Replace with your CSV file path
+    file_path = '../temp/video_submission.csv'  # Replace with your CSV file path
     handler = CSVHandler(file_path)
     # rows = handler.find_row_by_value("video_id","GxmDYSewCws")  # Example usage of the method
 
