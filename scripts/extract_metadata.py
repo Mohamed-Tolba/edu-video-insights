@@ -2,7 +2,7 @@
 Module: extract_metadata.py
 Author: Mohamed Tolba
 Date Created: 24-06-2025
-Last Updated: 15-07-2025
+Last Updated: 21-07-2025
 
 Description:
     Script that loads video IDs from video_submission.csv and uses the MetadataExtractor
@@ -50,7 +50,7 @@ def populate_video_submission_file(submission_data: dict, user_data_file_path: s
     This function reads video IDs from user_data.csv and creates a new video_submission.csv file.
     """
     user_data_file_handler = CSVHandler(user_data_file_path)
-    video_submission_file_handler = CSVHandler(video_submission_file_path)
+    video_submission_file_handler = CSVHandler(video_submission_file_path) 
 
     # Clear all data in the video submission file, keeping only the header
     video_submission_file_handler.clear_all_rows(msg="Any data in the video submission file has been deleted")  # Clear all data in the video submission file, keeping only the header
@@ -58,7 +58,17 @@ def populate_video_submission_file(submission_data: dict, user_data_file_path: s
     print("Creating video submission file...")
   
     # Loop through each video ID in the user data file and populate the video submission file
-    video_ids = user_data_file_handler.df['Content'].tolist()[1:]  # Fetch all video IDs from the video user data file
+    if user_data_file_handler.df.columns[0] == 'Content':
+        video_ids = user_data_file_handler.df['Content'].tolist()[1:]  # Fetch all video IDs from the video user data file
+        video_id_column = 'Content'
+        average_percemtage_viewed_column = 'Average percentage viewed (%)'
+    else:
+        try:
+            video_ids = user_data_file_handler.df['video_id'].tolist()
+            video_id_column = 'video_id'
+            average_percemtage_viewed_column = 'average_percentage_viewed'
+        except Exception as e:
+            print(f"An error occurred: {e}")
     for video_id in video_ids:  # Loop through each video ID
         if video_id:
             video_user_inputs = {
@@ -66,11 +76,12 @@ def populate_video_submission_file(submission_data: dict, user_data_file_path: s
                 "institution_name": submission_data.get("institution_name", "unknown"),  # Get the institution name from the user inputs    
                 "speaker_name": submission_data.get("speaker_name", "unknown"),
                 "course_code": submission_data.get("course_code", "unknown"),
+                "course_name": submission_data.get("course_name", "unknown"),
                 "unit_level": submission_data.get("unit_level", "unknown"),
                 "year": submission_data.get("year", "unknown"),
                 "video_type": submission_data.get("video_type", "unknown"),
                 "subject_area": submission_data.get("subject_area", "unknown"),
-                "average_percentage_viewed": user_data_file_handler.get_cell_value_by_match("Content", video_id, "Average percentage viewed (%)"), # Get the average_percentage_viewed from the user data file
+                "average_percentage_viewed": user_data_file_handler.get_cell_value_by_match(video_id_column, video_id, average_percemtage_viewed_column), # Get the average_percentage_viewed from the user data file
             }
             video_user_inputs["dataset_tag"] = generate_dataset_tag(video_user_inputs)
             video_submission_file_handler.add_new_row(video_user_inputs)  # Populate the row with the video user inputs
@@ -95,14 +106,15 @@ def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = '
         if video_id:  # Check if the video ID is not empty
             video_metadata = {
                 "video_id": video_id,  # Store the video ID
-                "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the subject area of the video from the video submission file
-                "institution_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "institution_name"), # Get the subject area of the video from the video submission file
-                "speaker_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "speaker_name"), # Get the subject area of the video from the video submission file
-                "course_code": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "course_code"), # Get the subject area of the video from the video submission file
-                "unit_level": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "unit_level"), # Get the subject area of the video from the video submission file
-                "year": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "year"), # Get the subject area of the video from the video submission file
-                "video_type": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "video_type"), # Get the subject area of the video from the video submission file
-                "subject_area": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "subject_area"), # Get the subject area of the video from the video submission file            
+                "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"),
+                "institution_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "institution_name"),
+                "speaker_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "speaker_name"),
+                "course_code": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "course_code"),
+                "course_name": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "course_name"),
+                "unit_level": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "unit_level"),
+                "year": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "year"),
+                "video_type": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "video_type"),
+                "subject_area": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "subject_area"),    
                 "duration_sec": MetadataExtractor_obj.get_video_duration_sec(video_id),  # Get the video duration
                 "video_url": MetadataExtractor_obj.construct_video_url(video_id),  # Construct the full video URL from the video ID
                 "title": MetadataExtractor_obj.get_video_title(video_id),  # Get the video title using the video ID
@@ -121,14 +133,27 @@ if __name__ == "__main__":
         "institution_name": "newcastle",
         "speaker_name": "a_gregg",
         "course_code": "ENGG2440",
-        "unit_level": "level_1",
-        "year": "2024",
+        "course_name": "Modelling and Control",
+        "unit_level": "level_2",
+        "year": "2025",
         "video_type": "Lecture",
         "subject_area": "Mechanical Engineering"
     }
-    user_data_file_path = parent_dir + '/' + 'data/user_data.csv'  # Path to the user data file
-    video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'  # Path to the video submission
-    new_metadata_file_path = parent_dir + '/' + 'data/new_metadata.csv'  # Path to the new metadata file
+
+    # submission_data = {
+    #     "institution_name": "newcastle",
+    #     "speaker_name": "a_gregg",
+    #     "course_code": "MECH1750",
+    #     "course_name": "Engineering Materials 1",
+    #     "unit_level": "level_1",
+    #     "year": "2025",
+    #     "video_type": "Lecture",
+    #     "subject_area": "Mechanical Engineering"
+    # }
+
+    user_data_file_path = parent_dir + '/' + 'temp/user_data.csv'  # Path to the user data file
+    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'  # Path to the video submission
+    new_metadata_file_path = parent_dir + '/' + 'temp/new_metadata.csv'  # Path to the new metadata file
     
     API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
     populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)  # Call the function to populate the video submission file

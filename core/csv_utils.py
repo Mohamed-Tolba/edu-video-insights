@@ -180,45 +180,46 @@ if __name__ == "__main__":
     # Example usage
     file_path = '../data/video_submission.csv'  # Replace with your CSV file path
     handler = CSVHandler(file_path)
-    rows = handler.find_row_by_value("video_id","GxmDYSewCws")  # Example usage of the method
+    # rows = handler.find_row_by_value("video_id","GxmDYSewCws")  # Example usage of the method
 
-    print(handler.df)
-    try:
-        # Example: Append a new row
-        video_id, video_type, subject_area, retention_rate,avg_view_duration = "Test_value_1", "lecture", "Computer Science", 0.75, 120.5
-        new_row = {
-            "video_id": "Test_value_1",
-            "institution_name": "Test Institution",
-            "video_type": "lecture",
-            "subject_area": "Computer Science",
-            "retention_rate": 0.75,
-            "avg_view_duration": 120.5}
-        handler.add_new_row(new_row)
-        print(handler.df)
-    except Exception as e:
-        print(f"❌ An error occurred: {e}")
-
-    handler.clean_csv()  # Clean the CSV by removing empty rows, columns, and duplicates
-    print(handler.df)
-
-    video_id, video_type, subject_area, retention_rate,avg_view_duration = "Test_value_1", "lecture", "Computer Science", 0.75, 300
-    modified_row_data = {
-            "video_id": "Test_value_1",
-            "institution_name": "Test Institution2",
-            "video_type": "lecture",
-            "subject_area": "Computer Science",
-            "retention_rate": 0.75,
-            "avg_view_duration": 420}
-
-    handler.populate_row_by_field("video_id", "Test_value_1", modified_row_data)
-    handler.clean_csv()  # Clean the CSV by removing empty rows, columns, and duplicates
-    print(handler.df)
-
-    handler.sort_by_field("dataset_tag", ascending = False)  # Sort by the field in ascending or descending order
-    print(handler.df)
-
-    handler.remove_row_by_field("video_id", "Test_value_1")  # Remove the row where video_id == "Test_value_1"
-    print(handler.df)
+    # print(handler.df)
+    print(handler.df.columns[0])
+    # try:
+    #     # Example: Append a new row
+    #     video_id, video_type, subject_area, retention_rate,avg_view_duration = "Test_value_1", "lecture", "Computer Science", 0.75, 120.5
+    #     new_row = {
+    #         "video_id": "Test_value_1",
+    #         "institution_name": "Test Institution",
+    #         "video_type": "lecture",
+    #         "subject_area": "Computer Science",
+    #         "retention_rate": 0.75,
+    #         "avg_view_duration": 120.5}
+    #     handler.add_new_row(new_row)
+    #     print(handler.df)
+    # except Exception as e:
+    #     print(f"❌ An error occurred: {e}")
+# 
+    # handler.clean_csv()  # Clean the CSV by removing empty rows, columns, and duplicates
+    # print(handler.df)
+# 
+    # video_id, video_type, subject_area, retention_rate,avg_view_duration = "Test_value_1", "lecture", "Computer Science", 0.75, 300
+    # modified_row_data = {
+    #         "video_id": "Test_value_1",
+    #         "institution_name": "Test Institution2",
+    #         "video_type": "lecture",
+    #         "subject_area": "Computer Science",
+    #         "retention_rate": 0.75,
+    #         "avg_view_duration": 420}
+# 
+    # handler.populate_row_by_field("video_id", "Test_value_1", modified_row_data)
+    # handler.clean_csv()  # Clean the CSV by removing empty rows, columns, and duplicates
+    # print(handler.df)
+# 
+    # handler.sort_by_field("dataset_tag", ascending = False)  # Sort by the field in ascending or descending order
+    # print(handler.df)
+# 
+    # handler.remove_row_by_field("video_id", "Test_value_1")  # Remove the row where video_id == "Test_value_1"
+    # print(handler.df)
 
     # handler.clear_all_rows()  # Clear all rows in the CSV file, keeping only the header
     # print(handler.df)  # Should print an empty DataFrame with only the header

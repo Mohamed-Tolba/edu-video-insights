@@ -58,7 +58,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
         try:
             # Read CSV using pandas
             df = pd.read_csv(uploaded_file)
-            user_data_file_path = parent_dir + '/' + 'data/user_data.csv'
+            user_data_file_path = parent_dir + '/' + 'temp/user_data.csv'
             df.to_csv(user_data_file_path, index=False)  # Save to a local file for further processing
 
             # Change index to start from 1 instead of 0
@@ -75,6 +75,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
             institution_name = st.text_input("Institution Name (e.g., Monash)")
             speaker_name = st.text_input("Speaker Name (e.g., M_Tolba)")
             course_code = st.text_input("Course Code (e.g., TRC3200)")
+            course_name = st.text_input("Course Name (e.g., Dynamical Systems)")
             unit_level = st.text_input("Unit Level (e.g., Year_3)")
             academic_year = st.text_input("Academic Year (e.g., 2025)")
             video_type = st.selectbox("Video Type", ["Lecture", "Tutorial", "Lab", "Seminar", "Other"])
@@ -83,6 +84,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                 "institution_name": institution_name,
                 "speaker_name": speaker_name,
                 "course_code": course_code,
+                "course_name": course_name,
                 "unit_level": unit_level,
                 "year": academic_year,
                 "video_type": video_type,
@@ -95,7 +97,7 @@ def render_tab1(MetadataExtractor_obj, parent_dir):
                 if missing_fields:
                     st.error(f"❌ The following fields are missing: {', '.join(missing_fields)}")
                 else:
-                    video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'
+                    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'
                     populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)
                     st.success("✅ Submission file prepared successfully!")
                     # Read CSV using pandas
