@@ -2,7 +2,7 @@
 Module: streamlit_app.py
 Author: Mohamed Tolba
 Date Created: 13-07-2025
-Last Updated: 15-07-2025
+Last Updated: 21-07-2025
 
 Description:
     Streamlit-based graphical user interface (GUI) for the educational video analysis project.

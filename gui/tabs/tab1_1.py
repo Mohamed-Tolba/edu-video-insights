@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import csv
 
 # Add the parent directory (project/) to the Python path
 from scripts.extract_metadata import *  # Import the function to populate new metadata file
