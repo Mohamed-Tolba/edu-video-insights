@@ -1,0 +1,9 @@
+Activate your virtualenv: source vnev/bin/activate
+Create a requirements.txt of currently installed packages: pip freeze > requirements.txt
+Delete the misspelled virtualenv: rm -r vnev/
+Create a new virtualenv with correct name: virtualenv venv
+Activate new virtualenv: source venv/bin/activate, source /home/mohamedtolba/Documents/edu-video-insights/.venv/bin/activate
+Install packages from requirements.txt: pip install -r requirements.txt
+
+
+To check your python version: python3 --version
