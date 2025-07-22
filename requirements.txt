@@ -7,3 +7,5 @@ scenedetect[opencv]
 matplotlib==3.10.3
 pandas>=2.2.2
 numpy>=2.1.0,<3
+openai-whisper
+# System dependency: ffmpeg must be installed separately
