@@ -8,4 +8,7 @@ matplotlib==3.10.3
 pandas>=2.2.2
 numpy>=2.1.0,<3
 openai-whisper
+
+#moviepy       # For extracting audio from video
+#parselmouth   # For pitch analysis using Praat
 # System dependency: ffmpeg must be installed separately

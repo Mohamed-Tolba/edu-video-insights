@@ -31,9 +31,9 @@ import whisper
 import warnings
 import yt_dlp
 
-import moviepy as mp        # For extracting audio from video
-import parselmouth                 # For pitch analysis using Praat
-import numpy as np                 # For numerical operations
+# import moviepy as mp        # For extracting audio from video
+# import parselmouth                 # For pitch analysis using Praat
+# import numpy as np                 # For numerical operations
 
 from scenedetect import open_video, SceneManager 
 # open_video: Recommended function to load video files for analysis in PySceneDetect.
@@ -51,14 +51,14 @@ from core.keys_manager import load_api_key  # Import the function to load the AP
 from core.metadata_core import MetadataExtractor
 
 class CharacsExtractor:
-    def __init__(self, API_KEY: str):
-        self.MetadataExtractor_obj = MetadataExtractor(API_KEY)
+    def __init__(self):
+        pass
 
     def download_youtube_video_audio(self, video_id, save_dir="."):
         """
         Download a YouTube video and audio using yt-dlp.   
         """
-        video_url = self.MetadataExtractor_obj.construct_video_url(video_id)
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
         if not video_url:
             print(f"Could not retrieve video URL for video ID: {video_id}")
             return
@@ -116,7 +116,7 @@ class CharacsExtractor:
         words = cleaned_transcript.split()
         return len(words)  # Return the number of words in the transcript
     
-    def extract_word_per_minute(self, video_id: str) -> float:
+    def extract_word_per_minute(self, video_path: str) -> float:
         """
         Calculate the speaking speed in words per minute.
         """
@@ -221,11 +221,11 @@ class CharacsExtractor:
 
 if __name__ == "__main__":
     API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
-    CharacsExtractor_obj = CharacsExtractor(API_KEY)  # Create an instance of the CharacsExtractor class with the API key
+    CharacsExtractor_obj = CharacsExtractor()  # Create an instance of the CharacsExtractor class with the API key
     MetadataExtractor_obj = MetadataExtractor(API_KEY)
 
-    # video_id = "sEE33_YIgys" 
-    video_id = "5FdFwUkXFHQ"
+    video_id = "sEE33_YIgys" 
+    # video_id = " "
     save_dir = parent_dir + '/temp'
     video_path = CharacsExtractor_obj.download_youtube_video_audio(video_id, save_dir)  # Download the video
     
@@ -251,7 +251,7 @@ if __name__ == "__main__":
 
     # print(CharacsExtractor_obj.extract_pitch_features(video_path))
 
-    transcript = CharacsExtractor_obj.extract_transcript(video_path)
+    # transcript = CharacsExtractor_obj.extract_transcript(video_path)
     # print(transcript)
 
     CharacsExtractor_obj.delete_file(video_path)

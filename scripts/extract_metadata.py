@@ -45,7 +45,7 @@ def generate_dataset_tag(video_user_inputs: dict) -> str:
     return dataset_tag
 
 
-def populate_video_submission_file(submission_data: dict, user_data_file_path: str = 'data/user_data.csv', video_submission_file_path: str = 'data/video_submission.csv') -> None:
+def populate_video_submission_file(submission_data: dict, user_data_file_path: str = 'temp/user_data.csv', video_submission_file_path: str = 'temp/video_submission.csv') -> None:
     """
     Populates the video_submission.csv file with video IDs and user inputs.
     This function reads video IDs from user_data.csv and creates a new video_submission.csv file.
@@ -88,7 +88,7 @@ def populate_video_submission_file(submission_data: dict, user_data_file_path: s
             video_submission_file_handler.add_new_row(video_user_inputs)  # Populate the row with the video user inputs
     video_submission_file_handler.clean_csv()  # Clean the video submission file by removing invalid rows and duplicates, and extra unnamed columns
 
-def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = 'data/video_submission.csv', new_metadata_file_path: str = 'data/new_metadata.csv') -> None:
+def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = 'temp/video_submission.csv', new_metadata_file_path: str = 'temp/new_metadata.csv') -> None:
     """
     Populates the new_metadata.csv file with video metadata.
     This function reads video IDs from video_submission.csv and creates a new new_metadata.csv file.
@@ -115,8 +115,7 @@ def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = '
                 "unit_level": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "unit_level"),
                 "year": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "year"),
                 "video_type": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "video_type"),
-                "subject_area": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "subject_area"),    
-                "duration_sec": MetadataExtractor_obj.get_video_duration_sec(video_id),  # Get the video duration
+                "subject_area": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "subject_area"),
                 "video_url": MetadataExtractor_obj.construct_video_url(video_id),  # Construct the full video URL from the video ID
                 "title": MetadataExtractor_obj.get_video_title(video_id),  # Get the video title using the video ID
                 "channel_id": MetadataExtractor_obj.get_video_channel_id(video_id),  # Get the channel ID of the video
