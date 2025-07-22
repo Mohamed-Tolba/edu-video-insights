@@ -17,6 +17,7 @@ To do:
     - Consider giving the user the option to select which dataset to use for analysis.
 """
 # Streamlit is a tool that lets you turn your Python scripts into interactive web apps — easily, quickly, and with very little code.
+# source /home/mohamedtolba/Documents/edu-video-insights/.venv/bin/activate
 # streamlit run streamlit_app.py
 
 import streamlit as st
