@@ -5,7 +5,7 @@ import pandas as pd
 from scripts.extract_metadata import *  # Import the function to populate new metadata file
 from scripts.create_temp_data_files import *
 
-def render_tab1_1(MetadataExtractor_obj, parent_dir, user_id):
+def import_new_data(MetadataExtractor_obj, parent_dir, user_id):
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """
@@ -73,14 +73,14 @@ def render_tab1_1(MetadataExtractor_obj, parent_dir, user_id):
             # st.markdown("### 📝 Preparing a submission file for the data extraction and analysis")
             # st.markdown("### Fill in the following details for the uploaded data")
             st.subheader("Step 3: Fill in the following details for the uploaded data")
-            institution_name = st.text_input("Institution Name (e.g., Monash)")
-            speaker_name = st.text_input("Speaker Name (e.g., M_Tolba)")
-            course_code = st.text_input("Course Code (e.g., TRC3200)")
-            course_name = st.text_input("Course Name (e.g., Dynamical Systems)")
-            unit_level = st.text_input("Unit Level (e.g., Year_3)")
-            academic_year = st.text_input("Academic Year (e.g., 2025)")
+            institution_name = st.text_input("Institution Name (e.g., Monash)", "Monash")
+            speaker_name = st.text_input("Speaker Name (e.g., M_Tolba)", "M_Tolba")
+            course_code = st.text_input("Course Code (e.g., TRC3200)", "TRC3200")
+            course_name = st.text_input("Course Name (e.g., Dynamical Systems)", "Dynamical Systems")
+            unit_level = st.text_input("Unit Level (e.g., Year_3)", "Year_3")
+            academic_year = st.text_input("Academic Year (e.g., 2025)", "2025")
             video_type = st.selectbox("Video Type", ["Lecture", "Tutorial", "Lab", "Seminar", "Other"])
-            subject_area = st.text_input("Subject Area (e.g., Mechanical_Engineering)")
+            subject_area = st.text_input("Subject Area (e.g., Mechanical_Engineering)", "Mechanical Engineering")
             submission_data = {
                 "institution_name": institution_name,
                 "speaker_name": speaker_name,

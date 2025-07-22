@@ -25,13 +25,24 @@ from core.characteristics_core import CharacsExtractor
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
 from scripts.create_temp_data_files import *
 
+CharacsExtractor_obj = CharacsExtractor()
+
+def donwload_all_videos(video_submission_file_path: str = 'temp/video_submission.csv', temp_save_dir = 'temp') -> None:
+    video_submission_file_handler = CSVHandler(video_submission_file_path)
+    video_ids = video_submission_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file
+    counter = 1
+    for video_id in video_ids:  # Loop through each video ID
+       if video_id:  # Check if the video ID is not empty
+           print(f"Downloading video {counter}/{len(video_ids)}...")
+           CharacsExtractor_obj.download_youtube_video_audio(video_id, temp_save_dir)  # Download the video
+           counter = counter + 1
+
+
 def populate_new_characs_file(video_submission_file_path: str = 'temp/video_submission.csv', new_characs_file_path: str = 'temp/new_characs.csv', temp_save_dir = 'temp') -> None:
     """
     Populates the new_characs.csv file with video characteristics.
     This function reads video IDs from video_submission.csv and creates a new new_characs.csv file.
     """
-    CharacsExtractor_obj = CharacsExtractor()
-
     video_submission_file_handler = CSVHandler(video_submission_file_path)
     new_characs_file_handler = CSVHandler(new_characs_file_path)
 
@@ -45,12 +56,7 @@ def populate_new_characs_file(video_submission_file_path: str = 'temp/video_subm
     for video_id in video_ids:  # Loop through each video ID
         if video_id:  # Check if the video ID is not empty
             print(f"Analysing video {counter}/{len(video_ids)}...")
-            video_path = CharacsExtractor_obj.download_youtube_video_audio(video_id, save_dir)  # Download the video
-            if os.path.exists(video_path):
-                print(f"Video downloaded successfully to {video_path}")
-            else:
-                print(f"Failed to download video {video_id}. Check if the video ID is correct or if the video exists.")
-
+            video_path = temp_save_dir + '/' + f"{video_id}.mp4"
             video_characs = {
                 "video_id": video_id,  # Store the video ID
                 "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"),
@@ -65,6 +71,17 @@ def populate_new_characs_file(video_submission_file_path: str = 'temp/video_subm
             counter = counter + 1
     new_characs_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
 
+def delete_all_videos(video_submission_file_path: str = 'temp/video_submission.csv', temp_save_dir = 'temp') -> None:
+    video_submission_file_handler = CSVHandler(video_submission_file_path)
+    video_ids = video_submission_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file
+    counter = 1
+    for video_id in video_ids:  # Loop through each video ID
+       if video_id:  # Check if the video ID is not empty
+           print(f"Deleting video {counter}/{len(video_ids)}...")
+           video_path = temp_save_dir + '/' + f"{video_id}.mp4"
+           CharacsExtractor_obj.delete_file(video_path)
+           counter = counter + 1
+
 if __name__ == "__main__":
     temp_save_dir = parent_dir + '/temp'
     video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'  # Path to the video submission
@@ -72,5 +89,8 @@ if __name__ == "__main__":
     
     create_new_characs_csv(new_characs_file_path)
 
+    donwload_all_videos(video_submission_file_path, temp_save_dir)
     populate_new_characs_file(video_submission_file_path, new_characs_file_path, temp_save_dir)  # Call the function to populate the video submission file
-    print("Video characs file populated successfully.")
+    delete_all_videos(video_submission_file_path, temp_save_dir)
+    
+    #print("Video characs file populated successfully.")

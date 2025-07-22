@@ -20,15 +20,14 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
+from scripts.create_temp_data_files import *
 
-def extract_metrics(video_submission_file_path: str = 'data/video_submission.csv', new_metrics_file_path: str = 'data/new_metrics.csv') -> None:
+def populate_new_metrics_file(video_submission_file_path: str = 'temp/video_submission.csv', new_metrics_file_path: str = 'temp/new_metrics.csv') -> None:
     """
     Extracts video metrics from the video submission file and writes them to a new metrics file.
     """
-    video_submission_file_path = parent_dir + '/' + 'data/video_submission.csv'
-    video_submission_file_handler = CSVHandler(video_submission_file_path)
 
-    new_metrics_file_path = parent_dir + '/' + 'data/new_metrics.csv'
+    video_submission_file_handler = CSVHandler(video_submission_file_path)
     new_metrics_file_handler = CSVHandler(new_metrics_file_path)
 
     new_metrics_file_handler.clear_all_rows(msg = "Any data in the new_metrics_file has been deleted")  # Clear all data in the new metrics file, keeping only the header
@@ -45,7 +44,10 @@ def extract_metrics(video_submission_file_path: str = 'data/video_submission.csv
     new_metrics_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
 
 if __name__ == "__main__":
-    extract_metrics()  # Call the function to extract metrics from the video submission file
+    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'
+    new_metrics_file_path = parent_dir + '/' + 'temp/new_metrics.csv'
+    create_new_metrics_csv(new_metrics_file_path)
+    populate_new_metrics_file(video_submission_file_path, new_metrics_file_path)  # Call the function to extract metrics from the video submission file
     print("Metrics extraction completed successfully.")
 
 
