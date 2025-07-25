@@ -44,8 +44,8 @@ def populate_new_metrics_file(video_submission_file_path: str = 'temp/video_subm
     new_metrics_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
 
 if __name__ == "__main__":
-    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'
-    new_metrics_file_path = parent_dir + '/' + 'temp/new_metrics.csv'
+    video_submission_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_video_submission.csv'
+    new_metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
     create_new_metrics_csv(new_metrics_file_path)
     populate_new_metrics_file(video_submission_file_path, new_metrics_file_path)  # Call the function to extract metrics from the video submission file
     print("Metrics extraction completed successfully.")

@@ -129,16 +129,16 @@ def populate_new_metadata_file(API_KEY: str, video_submission_file_path: str = '
     new_metadata_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
 
 if __name__ == "__main__":
-    submission_data = {
-        "institution_name": "newcastle",
-        "speaker_name": "a_gregg",
-        "course_code": "ENGG2440",
-        "course_name": "Modelling and Control",
-        "unit_level": "level_2",
-        "year": "2025",
-        "video_type": "Lecture",
-        "subject_area": "Mechanical Engineering"
-    }
+    # submission_data = {
+    #     "institution_name": "newcastle",
+    #     "speaker_name": "a_gregg",
+    #     "course_code": "ENGG2440",
+    #     "course_name": "Modelling and Control",
+    #     "unit_level": "level_2",
+    #     "year": "2025",
+    #     "video_type": "Lecture",
+    #     "subject_area": "Mechanical Engineering"
+    # }
 
     # submission_data = {
     #     "institution_name": "newcastle",
@@ -151,20 +151,20 @@ if __name__ == "__main__":
     #     "subject_area": "Mechanical Engineering"
     # }
 
-    # submission_data = {
-    #     "institution_name": "newcastle",
-    #     "speaker_name": "a_gregg",
-    #     "course_code": "MECH1750",
-    #     "course_name": "Engineering Materials 1",
-    #     "unit_level": "level_1",
-    #     "year": "2025",
-    #     "video_type": "Lecture",
-    #     "subject_area": "Mechanical Engineering"
-    # }
+    submission_data = {
+        "institution_name": "newcastle",
+        "speaker_name": "a_gregg",
+        "course_code": "MECH1750",
+        "course_name": "Engineering Materials 1",
+        "unit_level": "level_1",
+        "year": "2025",
+        "video_type": "Lecture",
+        "subject_area": "Mechanical Engineering"
+    }
 
-    user_data_file_path = parent_dir + '/' + 'temp/user_data.csv'  # Path to the user data file
-    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'  # Path to the video submission
-    new_metadata_file_path = parent_dir + '/' + 'temp/new_metadata.csv'  # Path to the new metadata file
+    user_data_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_user_data.csv'  # Path to the user data file
+    video_submission_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_video_submission.csv'  # Path to the video submission
+    new_metadata_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metadata.csv'  # Path to the new metadata file
     
     create_video_submission_csv(video_submission_file_path)
     create_new_metadata_csv(new_metadata_file_path)

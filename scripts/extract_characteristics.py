@@ -33,7 +33,7 @@ def donwload_all_videos(video_submission_file_path: str = 'temp/video_submission
     counter = 1
     for video_id in video_ids:  # Loop through each video ID
        if video_id:  # Check if the video ID is not empty
-           print(f"Downloading video {counter}/{len(video_ids)}...")
+           print(f"Downloading video {counter}/{len(video_ids)}... video id: {video_id}, video URL: https://www.youtube.com/watch?v={video_id}")
            CharacsExtractor_obj.download_youtube_video_audio(video_id, temp_save_dir)  # Download the video
            counter = counter + 1
 
@@ -50,12 +50,11 @@ def populate_new_characs_file(video_submission_file_path: str = 'temp/video_subm
     new_characs_file_handler.clean_csv()
     print("Creating new characs file...")
     # Loop through each video ID in the video submission file and fetch metadata 
-    save_dir = temp_save_dir
     counter = 1
     video_ids = video_submission_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file
     for video_id in video_ids:  # Loop through each video ID
         if video_id:  # Check if the video ID is not empty
-            print(f"Analysing video {counter}/{len(video_ids)}...")
+            print(f"Analysing video {counter}/{len(video_ids)}... video id: {video_id}, video URL: https://www.youtube.com/watch?v={video_id}")
             video_path = temp_save_dir + '/' + f"{video_id}.mp4"
             video_characs = {
                 "video_id": video_id,  # Store the video ID
@@ -77,20 +76,20 @@ def delete_all_videos(video_submission_file_path: str = 'temp/video_submission.c
     counter = 1
     for video_id in video_ids:  # Loop through each video ID
        if video_id:  # Check if the video ID is not empty
-           print(f"Deleting video {counter}/{len(video_ids)}...")
+           print(f"Deleting video {counter}/{len(video_ids)}... video id: {video_id}, video URL: https://www.youtube.com/watch?v={video_id}")
            video_path = temp_save_dir + '/' + f"{video_id}.mp4"
-           CharacsExtractor_obj.delete_file(video_path)
+           # CharacsExtractor_obj.delete_file(video_path)
            counter = counter + 1
 
 if __name__ == "__main__":
     temp_save_dir = parent_dir + '/temp'
-    video_submission_file_path = parent_dir + '/' + 'temp/video_submission.csv'  # Path to the video submission
-    new_characs_file_path = parent_dir + '/' + 'temp/new_characs.csv'  # Path to the new metadata file
+    video_submission_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_video_submission.csv'  # Path to the video submission
+    new_characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'  # Path to the new metadata file
     
     create_new_characs_csv(new_characs_file_path)
 
     donwload_all_videos(video_submission_file_path, temp_save_dir)
     populate_new_characs_file(video_submission_file_path, new_characs_file_path, temp_save_dir)  # Call the function to populate the video submission file
-    delete_all_videos(video_submission_file_path, temp_save_dir)
+    # delete_all_videos(video_submission_file_path, temp_save_dir)
     
     #print("Video characs file populated successfully.")

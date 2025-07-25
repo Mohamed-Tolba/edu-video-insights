@@ -83,10 +83,13 @@ class CharacsExtractor:
         fps = cap.get(cv2.CAP_PROP_FPS) # Retrieve the frame rate (frames per second) of the video
         frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT) # Retrieve the total number of frames in the video
         cap.release()  # Close the video file to free up resources
-        duration_sec = round(frame_count / fps, 2)
-        duration_min = round(duration_sec / 60.0, 2)  # Convert seconds to minutes
-        if format == 'sec': return duration_sec
-        elif format == 'min': return duration_min
+        try:
+            duration_sec = round(frame_count / fps, 2)
+            duration_min = round(duration_sec / 60.0, 2)  # Convert seconds to minutes
+            if format == 'sec': return duration_sec
+            elif format == 'min': return duration_min
+        except Exception as e:
+            print(f"❌ Unexpected error: {e} for video {video_path}")
     
     def extract_transcript(self, video_path):
         warnings.filterwarnings("ignore", message="FP16 is not supported on CPU; using FP32 instead")
@@ -129,7 +132,7 @@ class CharacsExtractor:
         else:
             return None        
     
-    def count_scene_changes(self, video_path=".", threshold=10.0, offsets = [1,2]):
+    def count_scene_changes(self, video_path=".", threshold = 30.0, offsets = [1,2]):
         """
         Detect and count scene changes in a video using PySceneDetect.
         """
@@ -167,8 +170,10 @@ class CharacsExtractor:
 
             if start_sec >= skip_start_sec and end_sec <= (total_duration_sec - skip_end_sec):
                 filtered_scenes.append((start_time, end_time))
+       
+        # for scene in filtered_scenes:
+        #     print(scene)
 
-        # print(filtered_scenes)
         # Return total number of detected scene changes
         return len(filtered_scenes)
     
@@ -182,7 +187,7 @@ class CharacsExtractor:
             scene_change_freq = total_scene_changes / (total_duration_sec / 60.0)  # Convert seconds to minutes
             return round(scene_change_freq, 2)  # Round to 2 decimal places
         else:
-            return None
+            return 0
 
     # def extract_pitch_features(self, video_path):
     #     video = mp.VideoFileClip(video_path)                      # Load video file
@@ -235,23 +240,23 @@ if __name__ == "__main__":
     else:
         print(f"Failed to download video {video_id}. Check if the video ID is correct or if the video exists.")
     
-    video_url = MetadataExtractor_obj.construct_video_url(video_id)
-    video_duration_min = CharacsExtractor_obj.extract_video_duration(video_path, 'min')
-    video_words_count = CharacsExtractor_obj.count_words(video_path)
-    video_speaking_word_per_minute = CharacsExtractor_obj.extract_word_per_minute(video_path)
-    video_scences_count = CharacsExtractor_obj.count_scene_changes(video_path, 30)
-    video_scene_change_per_min = CharacsExtractor_obj.extract_scene_change_per_min(video_path, 30)
+    # video_url = MetadataExtractor_obj.construct_video_url(video_id)
+    # video_duration_min = CharacsExtractor_obj.extract_video_duration(video_path, 'min')
+    # video_words_count = CharacsExtractor_obj.count_words(video_path)
+    # video_speaking_word_per_minute = CharacsExtractor_obj.extract_word_per_minute(video_path)
+    video_scences_count = CharacsExtractor_obj.count_scene_changes(video_path, 30) # Threshold = 10 for small changes detection
+    # video_scene_change_per_min = CharacsExtractor_obj.extract_scene_change_per_min(video_path, 30)
     
-    print(f"video url: {video_url}")
-    print(f"video duration min: {video_duration_min}")
-    print(f"video words count: {video_words_count}")
-    print(f"video speaking rate (wpm): {video_speaking_word_per_minute}")
+    # print(f"video url: {video_url}")
+    # print(f"video duration min: {video_duration_min}")
+    # print(f"video words count: {video_words_count}")
+    # print(f"video speaking rate (wpm): {video_speaking_word_per_minute}")
     print(f"video scenes count: {video_scences_count}")
-    print(f"video scene change rate (per min): {video_scene_change_per_min}")
+    # print(f"video scene change rate (per min): {video_scene_change_per_min}")
 
     # print(CharacsExtractor_obj.extract_pitch_features(video_path))
 
     # transcript = CharacsExtractor_obj.extract_transcript(video_path)
     # print(transcript)
 
-    CharacsExtractor_obj.delete_file(video_path)
+    # CharacsExtractor_obj.delete_file(video_path)
