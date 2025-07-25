@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('QtAgg')  # or 'Qt5Agg', 'Qt6Agg', etc.
 import matplotlib.pyplot as plt
 
+import os, sys
 # Build the absolute path to the parent directory
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add to Python module search path
@@ -143,37 +144,40 @@ class MultipleLinearRegression:
         return w, b, J_history #return final w,b and J history for graphing
         
 if __name__ == "__main__":
-    import sys, os
-    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) # Build the absolute path to the parent directory
-    sys.path.append(parent_dir) # Add to Python module search path
-    
-    
-    video_submission_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_video_submission.csv'  # Path to the video submission
-    video_submission_file_handler = CSVHandler(video_submission_file_path)
-
-    dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
-    video_ids = video_submission_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file
-    # dataset_tags = video_submission_file_handler.df['dataset_tag'].tolist()  # Fetch all video IDs from the video submission file
-    for video_id in video_ids:  # Loop through each video ID
-        dataset_tag = video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
-        if video_id and dataset_tag == dataset_tag_train:  # Check if the video ID is not empty
-            video_metrics = {
-                "video_id": video_id,  # Store the video ID
-                "dataset_tag": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
-                "average_percentage_viewed": video_submission_file_handler.get_cell_value_by_match("video_id", video_id, "average_percentage_viewed"), # Get the average_percentage_viewed from the video submission file
-            }
-            new_metrics_file_handler.add_new_row(video_metrics)  # Populate the row with the video metadata
-    
-    new_metrics_file_handler.clean_csv() # Clean the new metadata file by removing invalid rows and duplicates, and extra unnamed columns
-    
     # Example usage of the LinearUnivariateRegression class
     model = MultipleLinearRegression()
+    
+    # Load the data set
+    characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'
+    characs_file_handler = CSVHandler(characs_file_path)
+    metrics_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metrics.csv'
+    metrics_file_handler = CSVHandler(metrics_file_path)
+    dataset_tag_train = "newcastle_mech1750_lecture_level1_agregg_2025"
 
-    ## Load the data set
-    X_train, y_train = load_house_data()
-    X_features = ['size(sqft)','bedrooms','floors','age']
-    m = X_train.shape[0] # Number of trainning examples
-    n = X_train.shape[1] # Number of trainning features
+    # characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'
+    # characs_file_handler = CSVHandler(characs_file_path)
+    # metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
+    # metrics_file_handler = CSVHandler(metrics_file_path)
+    # dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
+    video_ids = characs_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file    
+    i = 0; X_rows = []; y_train = []
+    for video_id in video_ids:  # Loop through each video ID
+        dataset_tag = characs_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
+        if video_id and dataset_tag[0] == dataset_tag_train:  # Check if the video ID is not empty, and the dataset is targetted one
+            duration_min = characs_file_handler.get_cell_value_by_match("video_id", video_id, "duration_min")
+            speaking_words_count = characs_file_handler.get_cell_value_by_match("video_id", video_id, "speaking_words_count")
+            avg_speaking_speed_wpm = characs_file_handler.get_cell_value_by_match("video_id", video_id, "avg_speaking_speed_wpm")
+            scenes_count = characs_file_handler.get_cell_value_by_match("video_id", video_id, "scenes_count")
+            avg_scene_change_per_min = characs_file_handler.get_cell_value_by_match("video_id", video_id, "avg_scene_change_per_min")
+            average_percentage_viewed = metrics_file_handler.get_cell_value_by_match("video_id", video_id, "average_percentage_viewed")
+            X_rows.append([duration_min, speaking_words_count, avg_speaking_speed_wpm, scenes_count, avg_scene_change_per_min])
+            y_train.append(average_percentage_viewed)
+
+    X_train = np.array(X_rows)
+    y_train = np.array(y_train)
+    X_features = ['duration_min','speaking_words_count','avg_speaking_speed_wpm','scenes_count','avg_scene_change_per_min']
+    m = X_train.shape[0] # Number of training examples
+    n = X_train.shape[1] # Number of training features
     
     ## View the variables (Before starting on any task, it is useful to get more familiar with your dataset)
     # print x_train
@@ -186,7 +190,7 @@ if __name__ == "__main__":
     ## Check the dimensions of your variables
     print ('The shape of x_train is:', X_train.shape)
     print ('The shape of y_train is: ', y_train.shape)
-    print ('Number of training examples (m):', len(X_train))
+    print ('Number of training examples (m):', m)
     
     ## Visualize your data
     # The scatter plots below can provide some indication of which features have the strongest influence on the output
@@ -195,7 +199,7 @@ if __name__ == "__main__":
     for i in range(len(ax)):
         ax[i].scatter(X_train[:,i], y_train, marker='x', c='r' ,label = 'target')
         ax[i].set_xlabel(X_features[i])
-    ax[0].set_ylabel("Price"); ax[0].legend()
+    ax[0].set_ylabel("average_percentage_viewed"); ax[0].legend()
     fig.suptitle("Visualising the trainning data (without normalisation)")
     plt.show()
     

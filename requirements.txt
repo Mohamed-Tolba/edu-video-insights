@@ -8,6 +8,7 @@ matplotlib==3.10.3
 pandas>=2.2.2
 numpy>=2.1.0,<3
 openai-whisper
+PyQt6
 
 #moviepy       # For extracting audio from video
 #parselmouth   # For pitch analysis using Praat
