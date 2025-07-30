@@ -1,1 +1,1 @@
-video_id,speaking_speed,slide_change_freq,has_captions,audio_clarity,tone_variability,dataset_tag
+dataset_tag,video_id,duration_min,speaking_words_count,avg_speaking_speed_wpm,scenes_count,avg_scene_change_per_min

@@ -1,6 +1,6 @@
 import copy, math  # Math library for mathematical functions
 import numpy as np # NumPy, a popular library for scientific computing
-np.set_printoptions(precision=2)  # reduced display precision on numpy arrays
+np.set_printoptions(precision = 2)  # reduced display precision on numpy arrays
 import matplotlib
 matplotlib.use('QtAgg')  # or 'Qt5Agg', 'Qt6Agg', etc.
 import matplotlib.pyplot as plt
@@ -69,8 +69,8 @@ class MultipleLinearRegression:
      for i in range(m):                                
          f_wb_i = np.dot(X[i], w) + b           #(n,)(n,) = scalar (see np.dot)
          cost = cost + (f_wb_i - y[i])**2       #scalar
-     cost = cost / (2 * m)                      #scalar    
-     return cost
+     total_cost = cost / (2 * m)                #scalar    
+     return total_cost
     
     def compute_gradient(self, X, y, w, b): 
         """
@@ -136,30 +136,40 @@ class MultipleLinearRegression:
             # Save cost J at each iteration
             if i < 100000:      # prevent resource exhaustion 
                 J_history.append(cost_function(X, y, w, b))
-
+                
             # Print cost every at intervals 10 times or as many iterations if < 10
             if i% math.ceil(num_iters / 10) == 0:
                 print(f"Iteration {i:4d}: Cost {J_history[-1]:8.2f}   ")
 
         return w, b, J_history #return final w,b and J history for graphing
+    
+    def evaluate_model(self, y_true, y_pred):
+      m = len(y_true)
+      mse = np.mean((y_true - y_pred) ** 2) # Mean Square Error
+      rmse = np.sqrt(mse) # Root Mean Square Error
+      mae = np.mean(np.abs(y_true - y_pred)) # Mean Absolute Error
+      r2 = 1 - np.sum((y_true - y_pred) ** 2) / np.sum((y_true - np.mean(y_true)) ** 2) # R-squared (Coefficient of Determination)
+      # R2 = 1 is perfect; R2 = 0 means tmodel is as good as the mean.
+      return mse, rmse, mae, r2
         
 if __name__ == "__main__":
     # Example usage of the LinearUnivariateRegression class
     model = MultipleLinearRegression()
     
     # Load the data set
-    characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'
-    characs_file_handler = CSVHandler(characs_file_path)
-    metrics_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metrics.csv'
-    metrics_file_handler = CSVHandler(metrics_file_path)
-    dataset_tag_train = "newcastle_mech1750_lecture_level1_agregg_2025"
-
-    # characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'
+    # characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'
     # characs_file_handler = CSVHandler(characs_file_path)
-    # metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
+    # metrics_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metrics.csv'
     # metrics_file_handler = CSVHandler(metrics_file_path)
-    # dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
-    video_ids = characs_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file    
+    # dataset_tag_train = "newcastle_mech1750_lecture_level1_agregg_2025"
+
+    characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'
+    characs_file_handler = CSVHandler(characs_file_path)
+    metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
+    metrics_file_handler = CSVHandler(metrics_file_path)
+    dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
+    video_ids = characs_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file 
+
     i = 0; X_rows = []; y_train = []
     for video_id in video_ids:  # Loop through each video ID
         dataset_tag = characs_file_handler.get_cell_value_by_match("video_id", video_id, "dataset_tag"), # Get the dataset tag of the video from the video submission file
@@ -175,7 +185,7 @@ if __name__ == "__main__":
 
     X_train = np.array(X_rows)
     y_train = np.array(y_train)
-    X_features = ['duration_min','speaking_words_count','avg_speaking_speed_wpm','scenes_count','avg_scene_change_per_min']
+    X_features = ['Duration in minutes','Total number of words','Average speaking speed (wpm)','Total number of scenes','Average scenes change rate (per minute)']
     m = X_train.shape[0] # Number of training examples
     n = X_train.shape[1] # Number of training features
     
@@ -194,24 +204,56 @@ if __name__ == "__main__":
     
     ## Visualize your data
     # The scatter plots below can provide some indication of which features have the strongest influence on the output
-    dlc = {"dlorange": "#FF9900"}    
-    fig,ax = plt.subplots(1,n,figsize=(12,3),sharey=True)
-    for i in range(len(ax)):
-        ax[i].scatter(X_train[:,i], y_train, marker='x', c='r' ,label = 'target')
-        ax[i].set_xlabel(X_features[i])
-    ax[0].set_ylabel("average_percentage_viewed"); ax[0].legend()
-    fig.suptitle("Visualising the trainning data (without normalisation)")
-    plt.show()
-    
+    # dlc = {"dlorange": "#FF9900"}    
+    # fig,ax = plt.subplots(1,n,figsize=(12,3),sharey=True)
+    # for i in range(len(ax)):
+    #     ax[i].scatter(X_train[:,i], y_train, marker='x', c='r' ,label = 'target')
+    #     ax[i].set_xlabel(X_features[i])
+    # ax[0].set_ylabel("average_percentage_viewed"); ax[0].legend()
+    # fig.suptitle("Visualising the trainning data (without normalisation)")
+    # plt.show()
+
     ## Scale/normalize the training data
     X_norm = model.zscore_normalize_features(X_train)
     print(f"Peak to Peak range by column in Raw        X: {np.ptp(X_train,axis=0)}")   
     print(f"Peak to Peak range by column in Normalized X: {np.ptp(X_norm,axis=0)}")
-    
+    # The scatter plots below can provide some indication of which features have the strongest influence on the output
+    fig, axes = plt.subplots(nrows=2, ncols=n, figsize=(15, 8))
+    fig.suptitle('First Row: Non-Normalised | Second Row: Normalised (Z-score Normalisation)', fontsize=16)
+    # Plot non-normalised data (first row)
+    for i in range(n):
+        data = X_train[:,i]
+        mu = np.mean(data); sigma  = np.std(data)                  
+        axes[0, i].scatter(X_train[:,i], y_train, marker='x', c='r' ,label = 'target')
+        axes[0, i].set_xlabel(X_features[i])
+        # axes[0, i].set_title(f'Raw Data {i+1}')
+        axes[0, i].grid(True)
+        axes[0, i].text(0.95, 0.05, f'Mean = {mu:.2f}\nStd = {sigma:.2f}', 
+                    transform=axes[0, i].transAxes,
+                    horizontalalignment='right', verticalalignment='bottom',
+                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+    axes[0, 0].set_ylabel("Average Percentage Viewed (%)")
+
+    # Plot normalised data (second row)
+    for i in range(n):
+        data = X_norm[:,i]
+        mu = np.mean(data); sigma  = np.std(data)  
+        axes[1, i].scatter(X_norm[:,i], y_train, marker='x', c='r' ,label = 'target')
+        axes[1, i].set_xlabel(X_features[i]+" (normalised)")
+        # axes[1, i].set_title(f'Normalised Data {i+1}')
+        axes[1, i].grid(True)
+        axes[1, i].text(0.95, 0.05, f'Mean = {mu:.2f}\nStd = {sigma:.2f}', 
+                    transform=axes[1, i].transAxes,
+                    horizontalalignment='right', verticalalignment='bottom',
+                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+    axes[1, 0].set_ylabel("Average Percentage Viewed (%)")
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
+ 
     ## Create and fit the regression model
     w_norm, b_norm, J_hist = model.gradient_descent(X = X_norm, y = y_train, w_in = np.zeros(n,), b_in = 0, 
                                                   cost_function = model.compute_cost, gradient_function = model.compute_gradient, 
-                                                  alpha = 1.0e-1, num_iters = 1000)
+                                                  alpha = 0.92, num_iters = 2000)
     print(f"model parameters:                   w: {w_norm}, b:{b_norm}")
     
     ## Visualise the cost function change over iterations
@@ -229,6 +271,14 @@ if __name__ == "__main__":
     print(f"Prediction on training set:\n{y_pred[:4]}" )
     print(f"Target values \n{y_train[:4]}")
     
+    ## Model Evaluation
+    mse, rmse, mae, r2 = model.evaluate_model(y_train, y_pred)
+    print(f"Evaluation Metrics:")
+    print(f"- MSE  : {mse:.4f}")
+    print(f"- RMSE : {rmse:.4f}")
+    print(f"- MAE  : {mae:.4f}")
+    print(f"- R^2  : {r2:.4f}")
+
     ## Plot Results
     # plot predictions and targets vs original features
     dlc = {"dlorange": "#FF9900"}    
@@ -237,6 +287,6 @@ if __name__ == "__main__":
         ax[i].scatter(X_train[:,i],y_train, label = 'target')
         ax[i].set_xlabel(X_features[i])
         ax[i].scatter(X_train[:,i],y_pred,color = dlc["dlorange"], label = 'predict')
-    ax[0].set_ylabel("Price"); ax[0].legend()
-    fig.suptitle("target versus prediction using z-score normalized model")
+    ax[0].set_ylabel("Average Percentage Viewed (%)"); ax[0].legend()
+    fig.suptitle("Target versus prediction using z-score normalised model")
     plt.show()
