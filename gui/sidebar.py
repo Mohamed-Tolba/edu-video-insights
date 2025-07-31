@@ -1,6 +1,5 @@
 # sidebar.py
 import streamlit as st
-import os
 
 def add_sidebar(parent_dir):
     st.sidebar.title("🎓 EduVideo Insights")

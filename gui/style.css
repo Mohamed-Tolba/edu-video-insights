@@ -26,10 +26,7 @@ body {
     background-color: #FAFAFA;
 }
 
-/*header, footer {
-    visibility: hidden;
-}*/
-
+/* Hide the sidebar navigation */
 [data-testid="stSidebarNav"] {
     display: none;
 }

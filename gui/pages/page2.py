@@ -11,8 +11,7 @@ from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor
 # Load gui functions
 from gui.sidebar import add_sidebar  # Import the function to add the sidebar
 add_sidebar(parent_dir)             # Add the sidebar to the Streamlit app
-from gui.tabs.page1_tabs import *  # Import the function to render the first tab
-from gui.initialise_stat import *
+from gui.tabs.page2_tabs import *  # Import the function to render the first tab
 # --------------------------------------------------------------------------------------------------------
 # Load the YouTube Data API key ---------------------------------------------------------------------------
 API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
@@ -47,47 +46,45 @@ with st.expander("Select Video-Hosting Platform"):
         key="platform_choice"
     )
 
+if 'button2_1_1' not in st.session_state:
+    st.session_state['button2_1_1'] = 0
+if 'button2_1_2' not in st.session_state:
+    st.session_state['button2_1_2'] = 0
+if 'button2_2_1' not in st.session_state:
+    st.session_state['button2_2_1'] = 0
+if 'button2_3_1' not in st.session_state:
+    st.session_state['button2_3_1'] = 0
+
 if platform == "YouTube":
     st.info("YouTube is the primary platform for this project, and it is the only one currently supported. ")  
     tab1, tab2, tab3, tab4 = st.tabs(["📤 Create New Data File", "🛠️ Extract/Import metadata", "🛠️ Extract/Import metrics", "🔍 Extract/Import characteristics"])
     with tab1:
-        st.markdown("Click the buttons below to create a new data file or upload an existing one.")
-        template_link = parent_dir + '/' + 'gui/video_submission_template.csv'
-        st.markdown("Please note that if you are uploading an existing data file, it should be a csv file following this [template]().")  
+        st.markdown("Use the buttons below to create a new data file or upload an existing one.")  
+       
         # create two columns
-        col1, col2 = st.columns([0.2, 1])
+        col1, col2, col3 = st.columns([1, 1, 4])
         with col1:
             if st.button("Create New Data File"):
-                st.session_state['button1_1_1'] = 1
-                user_id_int = int(user_id_string)
-                user_id_int = user_id_int + 1 
-                user_id_string = f"{user_id_int:04d}"  # Output: '000012'
-                # Write to file
-                with open(id_file_path, 'w') as f:
-                    f.write(user_id_string)
-                user_id = user_id_string 
+                st.session_state['button2_1_1'] = 1
+                st.session_state['button2_1_2'] = 0
         with col2:
             if st.button("Upload Existing Data File"):
-                pass
-        if st.session_state['button1_1_1'] == 1:
-            st.info("Creating a new data file for your submission...")
-            st.markdown("Please follow the instructions below to prepare your submission data.")  
-            import_new_data(MetadataExtractor_obj, parent_dir, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+                st.session_state['button2_1_1'] = 0
+                st.session_state['button2_1_2'] = 1
 
+        if st.session_state['button2_1_1'] == 1:
+            st.info("Creating a new data file for your submission...")
+            st.markdown("Please follow the instructions below to help you prepare your video submission data.")  
+            create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+
+        if st.session_state['button2_1_2'] == 1:
+           st.info("Upload an existing data file...")
+           upload_video_submission_file(parent_dir, user_id)
+    
     with tab2:
-        # # create two columns
-        # col1, col2 = st.columns([1, 1])
-        # with col1:
-        #     if st.button("Extract Metadata from Youtube"):
-        #         st.session_state['button1_2_1'] = 1 
-        #         st.session_state['button1_2_2'] = 0      
-        # with col2:
-        #     if st.button("Extract Metrics"):
-        #         st.session_state['button1_2_1'] = 0
-        #         st.session_state['button1_2_2'] = 1
         if st.button("Extract Metadata from Youtube"):
-            st.session_state['button1_2_1'] = 1
-        if st.session_state['button1_2_1'] == 1:
+            st.session_state['button2_2_1'] = 1
+        if st.session_state['button2_2_1'] == 1:
             user_API_KEY = st.text_input("Enter your YouTube Data API Key ([How to get a YouTube API key](https://developers.google.com/youtube/v3/getting-started)):", placeholder="AIza…", type="password")
             if user_API_KEY:
                 url = "https://www.googleapis.com/youtube/v3/videos"
@@ -102,12 +99,26 @@ if platform == "YouTube":
                     st.error(f"❌ Invalid key: {error}")
     with tab3:
         if st.button("Extract Metrics"):
-            st.session_state['button1_3_1'] = 1
-        if st.session_state['button1_3_1'] == 1: 
+            st.session_state['button2_3_1'] = 1
+        if st.session_state['button2_3_1'] == 1: 
             st.info("Extracting metrics for each video...")
             extract_metrics(parent_dir, user_id)
+
     with tab4:
         st.info("🚧 Under Construction 🚧")
 
 else:
     st.warning(f"{platform} is not yet supported. This project is primarily focused on YouTube data collection and analysis. Please check back later for updates.")
+    st.session_state['button2_1_1'] = 0
+    st.session_state['button2_1_2'] = 0
+
+
+
+
+
+# user_id_int = int(user_id_string)
+# user_id_int = user_id_int + 1 
+# user_id_string = f"{user_id_int:04d}"  # Output: '000012'
+# # Write to file
+# with open(id_file_path, 'w') as f: 
+#     f.write(user_id_string)

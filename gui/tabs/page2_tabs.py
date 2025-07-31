@@ -6,7 +6,7 @@ from scripts.extract_metadata import *  # Import the function to populate new me
 from scripts.create_temp_data_files import *
 from scripts.extract_metrics import *  # Import the function to extract metrics 
 
-def import_new_data(MetadataExtractor_obj, parent_dir, user_id):
+def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id):
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """
@@ -51,7 +51,7 @@ def import_new_data(MetadataExtractor_obj, parent_dir, user_id):
 
     st.subheader("📤 Step 2: Upload your CSV file")
     # File uploader widget (CSV only)
-    uploaded_file = st.file_uploader("Choose a CSV file to upload", type=["csv"])
+    uploaded_file = st.file_uploader("Choose a CSV file to upload", type=["csv"], key="user_data_file_csv_uploader")
 
     # If a file is uploaded
     if uploaded_file is not None:
@@ -117,12 +117,33 @@ def import_new_data(MetadataExtractor_obj, parent_dir, user_id):
                     # Offer download button
                     with open(video_submission_file_path, "rb") as f:
                         st.download_button(
-                            label="📥 Download Submission File",
-                            data=f,
-                            file_name=f"video_submission_{user_id}.csv",
-                            mime="text/csv"
+                            label = "📥 Download Submission File",
+                            data = f,
+                            file_name = f"video_submission_{user_id}.csv",
+                            mime = "text/csv"
                         )
 
+        except Exception as e:
+            st.error(f"❌ Failed to read the CSV file. Error: {e}")
+
+def upload_video_submission_file(parent_dir, user_id):
+    # File uploader widget (CSV only)
+    uploaded_submission_file = st.file_uploader("Choose a CSV file to upload", type=["csv"], key="video_submission_file_csv_uploader")
+    # If a file is uploaded
+    if uploaded_submission_file is not None:
+        st.success(f"✅ Uploaded file: `{uploaded_submission_file.name}`")
+        try:
+            # Read CSV using pandas
+            df = pd.read_csv(uploaded_submission_file) 
+            user_data_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'
+            df.to_csv(user_data_file_path, index=False)  # Save to a local file for further processing
+
+            # Change index to start from 1 instead of 0
+            df.index = pd.Index(range(1, len(df) + 1))
+
+            # Display dataframe
+            st.markdown("🧾 The content of the uploaded CSV file can be seen below:")
+            st.dataframe(df)
         except Exception as e:
             st.error(f"❌ Failed to read the CSV file. Error: {e}")
 
