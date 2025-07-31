@@ -40,55 +40,74 @@ with open(id_file_path, 'r') as f:
 user_id = user_id_string
 # -------------------------------------------------------------------------------------------------------- 
 
-st.popover("Button label")
+with st.expander("Select Video-Hosting Platform"):
+    platform = st.radio(
+        "Choose platform:",
+        ["YouTube", "Dailymotion", "Panopto", "Echo 360", "Kaltura"],
+        key="platform_choice"
+    )
 
-tab1, tab2, tab3, tab4 = st.tabs(["📤 Create New Data File", "🛠️ Extract/Import metadata", "🛠️ Extract/Import metrics", "🔍 Extract/Import characteristics"])
-with tab1:   
-    if st.button("Create New Data File"):
-        st.session_state['button1_1_1'] = 1
-        user_id_int = int(user_id_string)
-        user_id_int = user_id_int + 1 
-        user_id_string = f"{user_id_int:04d}"  # Output: '000012'
-        # Write to file
-        with open(id_file_path, 'w') as f:
-            f.write(user_id_string)
-        user_id = user_id_string 
-        # import_new_data(MetadataExtractor_obj, parent_dir, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+if platform == "YouTube":
+    st.info("YouTube is the primary platform for this project, and it is the only one currently supported. ")  
+    tab1, tab2, tab3, tab4 = st.tabs(["📤 Create New Data File", "🛠️ Extract/Import metadata", "🛠️ Extract/Import metrics", "🔍 Extract/Import characteristics"])
+    with tab1:
+        st.markdown("Click the buttons below to create a new data file or upload an existing one.")
+        template_link = parent_dir + '/' + 'gui/video_submission_template.csv'
+        st.markdown("Please note that if you are uploading an existing data file, it should be a csv file following this [template]().")  
+        # create two columns
+        col1, col2 = st.columns([0.2, 1])
+        with col1:
+            if st.button("Create New Data File"):
+                st.session_state['button1_1_1'] = 1
+                user_id_int = int(user_id_string)
+                user_id_int = user_id_int + 1 
+                user_id_string = f"{user_id_int:04d}"  # Output: '000012'
+                # Write to file
+                with open(id_file_path, 'w') as f:
+                    f.write(user_id_string)
+                user_id = user_id_string 
+        with col2:
+            if st.button("Upload Existing Data File"):
+                pass
+        if st.session_state['button1_1_1'] == 1:
+            st.info("Creating a new data file for your submission...")
+            st.markdown("Please follow the instructions below to prepare your submission data.")  
+            import_new_data(MetadataExtractor_obj, parent_dir, user_id)  # Render the first tab for uploading CSV files and preparing submission data
 
-with tab2:
-    # # create two columns
-    # col1, col2 = st.columns([1, 1])
-    # with col1:
-    #     if st.button("Extract Metadata from Youtube"):
-    #         st.session_state['button1_2_1'] = 1 
-    #         st.session_state['button1_2_2'] = 0      
-    # with col2:
-    #     if st.button("Extract Metrics"):
-    #         st.session_state['button1_2_1'] = 0
-    #         st.session_state['button1_2_2'] = 1
-    
-    if st.button("Extract Metadata from Youtube"):
-        st.session_state['button1_2_1'] = 1
+    with tab2:
+        # # create two columns
+        # col1, col2 = st.columns([1, 1])
+        # with col1:
+        #     if st.button("Extract Metadata from Youtube"):
+        #         st.session_state['button1_2_1'] = 1 
+        #         st.session_state['button1_2_2'] = 0      
+        # with col2:
+        #     if st.button("Extract Metrics"):
+        #         st.session_state['button1_2_1'] = 0
+        #         st.session_state['button1_2_2'] = 1
+        if st.button("Extract Metadata from Youtube"):
+            st.session_state['button1_2_1'] = 1
+        if st.session_state['button1_2_1'] == 1:
+            user_API_KEY = st.text_input("Enter your YouTube Data API Key ([How to get a YouTube API key](https://developers.google.com/youtube/v3/getting-started)):", placeholder="AIza…", type="password")
+            if user_API_KEY:
+                url = "https://www.googleapis.com/youtube/v3/videos"
+                params = {"id": "dQw4w9WgXcQ", "key": user_API_KEY, "part": "id"}
+                resp = requests.get(url, params=params)
+                if resp.status_code == 200:
+                    st.success("✅ API key is valid!")
+                    st.info("Extracting metadata for each video...")
+                    extract_metadata(parent_dir, user_API_KEY, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+                else:
+                    error = resp.json().get("error", {}).get("message", resp.text)
+                    st.error(f"❌ Invalid key: {error}")
+    with tab3:
+        if st.button("Extract Metrics"):
+            st.session_state['button1_3_1'] = 1
+        if st.session_state['button1_3_1'] == 1: 
+            st.info("Extracting metrics for each video...")
+            extract_metrics(parent_dir, user_id)
+    with tab4:
+        st.info("🚧 Under Construction 🚧")
 
-    
-    if st.session_state['button1_2_1'] == 1:
-        user_API_KEY = st.text_input("Enter your YouTube Data API Key ([How to get a YouTube API key](https://developers.google.com/youtube/v3/getting-started)):", placeholder="AIza…", type="password")
-        if user_API_KEY:
-            url = "https://www.googleapis.com/youtube/v3/videos"
-            params = {"id": "dQw4w9WgXcQ", "key": user_API_KEY, "part": "id"}
-            resp = requests.get(url, params=params)
-            if resp.status_code == 200:
-                st.success("✅ API key is valid!")
-                st.info("Extracting metadata for each video...")
-                extract_metadata(parent_dir, user_API_KEY, user_id)  # Render the first tab for uploading CSV files and preparing submission data
-            else:
-                error = resp.json().get("error", {}).get("message", resp.text)
-                st.error(f"❌ Invalid key: {error}")
-with tab3:
-    if st.button("Extract Metrics"):
-        st.session_state['button1_3_1'] = 1
-    if st.session_state['button1_3_1'] == 1: 
-        st.info("Extracting metrics for each video...")
-        extract_metrics(parent_dir, user_id)
-with tab4:
-    st.info("🚧 Under Construction 🚧")
+else:
+    st.warning(f"{platform} is not yet supported. This project is primarily focused on YouTube data collection and analysis. Please check back later for updates.")
