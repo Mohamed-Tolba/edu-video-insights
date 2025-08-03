@@ -83,13 +83,13 @@ def delete_all_videos(video_submission_file_path: str = 'temp/video_submission.c
 
 if __name__ == "__main__":
     temp_save_dir = parent_dir + '/temp'
-    video_submission_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_video_submission.csv'  # Path to the video submission
-    new_characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'  # Path to the new metadata file
+    video_submission_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_video_submission.csv'  # Path to the video submission
+    new_characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'  # Path to the new metadata file
     
-    create_new_characs_csv(new_characs_file_path)
+    # create_new_characs_csv(new_characs_file_path)
 
     donwload_all_videos(video_submission_file_path, temp_save_dir)
-    populate_new_characs_file(video_submission_file_path, new_characs_file_path, temp_save_dir)  # Call the function to populate the video submission file
+    # populate_new_characs_file(video_submission_file_path, new_characs_file_path, temp_save_dir)  # Call the function to populate the video submission file
     # delete_all_videos(video_submission_file_path, temp_save_dir)
     
     #print("Video characs file populated successfully.")

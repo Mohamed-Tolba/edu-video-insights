@@ -1,10 +1,19 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # Add the parent directory (project/) to the Python path
 from scripts.extract_metadata import *  # Import the function to populate new metadata file
 from scripts.create_temp_data_files import *
 from scripts.extract_metrics import *  # Import the function to extract metrics 
+from scripts.extract_characteristics import *  # Import the function to extract characteristics
+
+upload_dir = parent_dir + '/' + 'temp/user_data'
+user_data_file_path = upload_dir + '/' + 'user_data.csv'
+video_submission_file_path = upload_dir + '/' + 'video_submission.csv'
+new_metadata_file_path = upload_dir + '/' + 'new_metadata.csv'
+new_metrics_file_path = upload_dir + '/' + 'new_metrics.csv'
+new_characs_file_path = parent_dir + '/' + 'new_characs.csv'  # Path to the new metadata file
 
 def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id):
     """
@@ -60,7 +69,6 @@ def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id)
         try:
             # Read CSV using pandas
             df = pd.read_csv(uploaded_file) 
-            user_data_file_path = parent_dir + '/' + f'temp/user_data_{user_id}.csv'
             df.to_csv(user_data_file_path, index=False)  # Save to a local file for further processing
 
             # Change index to start from 1 instead of 0
@@ -99,7 +107,6 @@ def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id)
                 if missing_fields:
                     st.error(f"❌ The following fields are missing: {', '.join(missing_fields)}")
                 else:
-                    video_submission_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'
                     create_video_submission_csv(video_submission_file_path)
                     populate_video_submission_file(submission_data, user_data_file_path, video_submission_file_path)
                     st.success("✅ Submission file prepared successfully!")
@@ -135,8 +142,7 @@ def upload_video_submission_file(parent_dir, user_id):
         try:
             # Read CSV using pandas
             df = pd.read_csv(uploaded_submission_file) 
-            user_data_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'
-            df.to_csv(user_data_file_path, index=False)  # Save to a local file for further processing
+            df.to_csv(video_submission_file_path, index=False)  # Save to a local file for further processing
 
             # Change index to start from 1 instead of 0
             df.index = pd.Index(range(1, len(df) + 1))
@@ -150,8 +156,6 @@ def upload_video_submission_file(parent_dir, user_id):
 def extract_metadata(parent_dir, API_KEY, user_id):
     # Call the function to populate new metadata file
     try:
-        video_submission_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'  # Path to the video submission
-        new_metadata_file_path = parent_dir + '/' + f'temp/new_metadata_{user_id}.csv'  # Path to the new metadata file
         create_new_metadata_csv(new_metadata_file_path)
         populate_new_metadata_file(API_KEY, video_submission_file_path, new_metadata_file_path)
         st.success("Metadata extraction completed successfully!")
@@ -176,8 +180,6 @@ def extract_metadata(parent_dir, API_KEY, user_id):
 def extract_metrics(parent_dir, user_id):
     # Call the function to populate new metadata file
     try:
-        video_submission_file_path = parent_dir + '/' + f'temp/video_submission_{user_id}.csv'  # Path to the video submission
-        new_metrics_file_path = parent_dir + '/' + f'temp/new_metrics_{user_id}.csv'  # Path to the new metrics file
         create_new_metrics_csv(new_metrics_file_path)
         populate_new_metrics_file(video_submission_file_path, new_metrics_file_path)
         st.success("Metrics extraction completed successfully!")
@@ -201,3 +203,181 @@ def extract_metrics(parent_dir, user_id):
             )
     except Exception as e:
         st.error(f"An error occurred while extracting metrics: {e}")
+
+def upload_videos():
+    # Upload multiple video files
+    uploaded_videos = st.file_uploader(
+        "Upload MP4 videos",
+        type=["mp4"],
+        accept_multiple_files=True,
+        key="multi_video_uploader"
+    )
+
+    # If files are uploaded, save them to the upload directory
+    if uploaded_videos:
+        for uploaded_video in uploaded_videos:
+            save_path = os.path.join(upload_dir, uploaded_video.name)
+            with open(save_path, "wb") as f:
+                f.write(uploaded_video.getbuffer())
+            # st.success(f"Saved: {uploaded_video.name}")
+
+    
+    # Display the uploaded videos
+    if st.button("View/Unview Uploaded Videos"):
+        if st.session_state['button2_4_1'] == 0:
+            st.session_state['button2_4_1'] = 1
+        else:
+            st.session_state['button2_4_1'] = 0
+
+    # Set the directory you want to manage
+    if st.session_state['button2_4_1'] == 1:
+        target_dir = upload_dir 
+        st.subheader("📂 Files Manager")
+
+        # Get list of files
+        video_list = [f for f in os.listdir(target_dir) if os.path.isfile(os.path.join(target_dir, f))]
+
+        if not video_list:
+            st.info("No files found in the directory.")
+        else:
+            for video_name in video_list:
+                video_path = os.path.join(target_dir, video_name)
+                video_ext = os.path.splitext(video_name)[1].lower()
+
+                if video_ext not in [".mp4"]: # , ".csv", ".txt"
+                    continue
+    
+                col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
+
+                # Display file name
+                with col1:
+                    st.write(video_name)
+
+                # Display file type
+                with col2:
+                    st.write(f"Type: {video_ext.upper()}")
+
+                # Display file size
+                with col3:
+                    file_size = os.path.getsize(video_path)
+                    st.write(f"Size: {file_size / 1024:.2f} KB")
+
+                # Open file button
+                with col4:
+                    if st.button("📂 Open", key=f"open_video_{video_name}"):
+                        st.session_state['button2_4_2'] = 1
+                if st.session_state['button2_4_2'] == 1:
+                    st.session_state['button2_4_2'] = 0 
+                    st.video(video_path)
+
+                # Download button
+                with open(video_path, "rb") as f:
+                    file_bytes = f.read()
+                    with col5:
+                        st.download_button(
+                            label="⬇️ Download",
+                            data=file_bytes,
+                            file_name=video_name,
+                            mime="application/octet-stream",
+                            key=f"download_video_{video_name}"
+                        )
+
+                # Delete button
+                with col6:
+                    if st.button("🗑️ Delete", key=f"delete_video_{video_name}"):
+                        os.remove(video_path)
+                        st.success(f"Deleted: {video_name}")
+                        st.rerun()
+                
+def extract_characteristics():
+    if st.button("Extract Characteristics"):
+        try:
+            st.info("Extracting characteristics from the uploaded videos...")
+            create_new_characs_csv(new_characs_file_path)
+            populate_new_characs_file(video_submission_file_path, new_characs_file_path, upload_dir)  # Call the function to populate the video submission file
+            st.success("Characteristics extraction completed successfully!")
+            # Read CSV using pandas
+            df = pd.read_csv(new_characs_file_path)
+            # Change index to start from 1 instead of 0
+            df.index = pd.Index(range(1, len(df) + 1))
+            # Display the DataFrame
+            st.subheader("🔍 Check the contents of the characteristics file below")
+            st.dataframe(df)
+            # Offer download button
+            with open(new_characs_file_path, "rb") as f:
+                st.download_button(
+                    label="📥 Download Characteristics File",
+                    data=f,
+                    file_name=f"new_characs.csv",
+                    mime="text/csv"
+                )
+        except Exception as e:
+            st.error(f"An error occurred while extracting characteristics: {e}")   
+
+def show_all_files():
+    # Referesh the page to show all files
+    if st.button("Referesh Files"):
+        st.rerun()
+
+    target_dir = upload_dir 
+    st.info("📂 Files Manager")
+    # Get list of files
+    file_list = [f for f in os.listdir(target_dir) if os.path.isfile(os.path.join(target_dir, f))]
+    if not file_list:
+        st.info("No files found in the directory.")
+    else:
+        
+        for file_name in file_list:
+            file_path = os.path.join(target_dir, file_name)
+            file_ext = os.path.splitext(file_name)[1].lower()
+            if file_ext not in [".mp4", ".csv"]: # , ".csv", ".txt"
+                continue
+            col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
+            # Display file name
+            with col1:
+                st.write(file_name)
+            # Display file type
+            with col2:
+                st.write(f"Type: {file_ext.upper()}")
+            # Display file size
+            with col3:
+                file_size = os.path.getsize(file_path)
+                st.write(f"Size: {file_size / 1024:.2f} KB")
+
+            # View file button
+            with col4:
+                if st.button("📂 View", key=f"view_file_{file_name}"):
+                    st.session_state['button2_5_2'] = 1
+            if st.session_state['button2_5_2'] == 1:
+                    st.session_state['button2_5_2'] = 0 
+                    if file_ext == ".mp4":
+                        st.video(file_path)
+                    elif file_ext == ".csv":
+                        # Read CSV using pandas
+                        df = pd.read_csv(file_path)
+                        # Change index to start from 1 instead of 0
+                        df.index = pd.Index(range(1, len(df) + 1))
+                        # Display the DataFrame
+                        st.dataframe(df)
+                    else:
+                        st.code(open(file_path).read())
+
+            # Download button
+            with open(file_path, "rb") as f:
+                file_bytes = f.read()
+                with col5:
+                    st.download_button(
+                        label="⬇️ Download",
+                        data=file_bytes,
+                        file_name=file_name,
+                        mime="application/octet-stream",
+                        key=f"download_file_{file_name}"
+                    )
+            # Delete button
+            with col6:
+                if st.button("🗑️ Delete", key=f"delete_file_{file_name}"):
+                    os.remove(file_path)
+                    st.success(f"Deleted: {file_name}")
+                    st.rerun()
+
+

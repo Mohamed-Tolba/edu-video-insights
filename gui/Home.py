@@ -38,7 +38,7 @@ add_sidebar(parent_dir)
 st.set_page_config(
     page_title="EduVideo Insights",
     page_icon=":book:",
-    # layout="wide",  # Use 'wide' layout for more space 
+    layout="centered",  # Use 'wide' layout for more space 
     initial_sidebar_state="expanded"  # Start with the sidebar expanded
 )
 # Page title

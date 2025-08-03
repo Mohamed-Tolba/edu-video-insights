@@ -54,10 +54,18 @@ if 'button2_2_1' not in st.session_state:
     st.session_state['button2_2_1'] = 0
 if 'button2_3_1' not in st.session_state:
     st.session_state['button2_3_1'] = 0
+if 'button2_4_1' not in st.session_state:
+    st.session_state['button2_4_1'] = 0
+if 'button2_4_2' not in st.session_state: # View button for files under files manager (under characteristics tab)
+    st.session_state['button2_4_2'] = 0
+if 'button2_5_1' not in st.session_state:
+    st.session_state['button2_5_1'] = 0
+if 'button2_5_2' not in st.session_state:
+    st.session_state['button2_5_2'] = 0
 
 if platform == "YouTube":
     st.info("YouTube is the primary platform for this project, and it is the only one currently supported. ")  
-    tab1, tab2, tab3, tab4 = st.tabs(["📤 Create New Data File", "🛠️ Extract/Import metadata", "🛠️ Extract/Import metrics", "🔍 Extract/Import characteristics"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["📤 Create New Data File", "🛠️ Extract/Import metadata", "🛠️ Extract/Import metrics", "🔍 Extract/Import characteristics", "📂 All files"])
     with tab1:
         st.markdown("Use the buttons below to create a new data file or upload an existing one.")  
        
@@ -105,8 +113,14 @@ if platform == "YouTube":
             extract_metrics(parent_dir, user_id)
 
     with tab4:
-        st.info("🚧 Under Construction 🚧")
+        st.subheader("📤 Step 1: Upload your video files")
+        upload_videos()
+        st.subheader("🔍 Step 2: Extract characteristics")
+        extract_characteristics()
 
+    with tab5:
+        st.subheader("📂 You can view and check all the prepared files below")
+        show_all_files()
 else:
     st.warning(f"{platform} is not yet supported. This project is primarily focused on YouTube data collection and analysis. Please check back later for updates.")
     st.session_state['button2_1_1'] = 0
