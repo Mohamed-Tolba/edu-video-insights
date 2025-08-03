@@ -1,0 +1,6 @@
+dataset_tag,video_id,duration_min,speaking_words_count,avg_speaking_speed_wpm,scenes_count,avg_scene_change_per_min
+monash_trc3200_lecture_year3_mtolba_2025,Cb3mbo0iMkM,3.25,688,211.95,23,7.09
+monash_trc3200_lecture_year3_mtolba_2025,IXug_xDPxdQ,3.12,709,227.18,20,6.41
+monash_trc3200_lecture_year3_mtolba_2025,dJrGo6rb5cM,3.0,653,217.81,7,2.33
+monash_trc3200_lecture_year3_mtolba_2025,zTA0K05WPeU,4.48,1000,223.38,13,2.9
+monash_trc3200_lecture_year3_mtolba_2025,tOK-3gow_fA,4.03,808,200.69,14,3.48
