@@ -15,7 +15,7 @@ new_metadata_file_path = upload_dir + '/' + 'new_metadata.csv'
 new_metrics_file_path = upload_dir + '/' + 'new_metrics.csv'
 new_characs_file_path = parent_dir + '/' + 'new_characs.csv'  # Path to the new metadata file
 
-def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id):
+def create_new_video_submission_file(MetadataExtractor_obj):
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """
@@ -126,14 +126,14 @@ def create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id)
                         st.download_button(
                             label = "📥 Download Submission File",
                             data = f,
-                            file_name = f"video_submission_{user_id}.csv",
+                            file_name = f"video_submission.csv",
                             mime = "text/csv"
                         )
 
         except Exception as e:
             st.error(f"❌ Failed to read the CSV file. Error: {e}")
 
-def upload_video_submission_file(parent_dir, user_id):
+def upload_video_submission_file():
     # File uploader widget (CSV only)
     uploaded_submission_file = st.file_uploader("Choose a CSV file to upload", type=["csv"], key="video_submission_file_csv_uploader")
     # If a file is uploaded
@@ -153,7 +153,7 @@ def upload_video_submission_file(parent_dir, user_id):
         except Exception as e:
             st.error(f"❌ Failed to read the CSV file. Error: {e}")
 
-def extract_metadata(parent_dir, API_KEY, user_id):
+def extract_metadata(API_KEY):
     # Call the function to populate new metadata file
     try:
         create_new_metadata_csv(new_metadata_file_path)
@@ -171,13 +171,13 @@ def extract_metadata(parent_dir, API_KEY, user_id):
             st.download_button(
                 label="📥 Download Metadata File",
                 data=f,
-                file_name=f"new_metadata_{user_id}.csv",
+                file_name=f"new_metadata.csv",
                 mime="text/csv"
             )
     except Exception as e:
         st.error(f"An error occurred while extracting metadata: {e}")
 
-def extract_metrics(parent_dir, user_id):
+def extract_metrics():
     # Call the function to populate new metadata file
     try:
         create_new_metrics_csv(new_metrics_file_path)
@@ -198,7 +198,7 @@ def extract_metrics(parent_dir, user_id):
             st.download_button(
                 label="📥 Download Metrics File",
                 data=f,
-                file_name=f"new_metrics_{user_id}.csv",
+                file_name=f"new_metrics.csv",
                 mime="text/csv"
             )
     except Exception as e:
@@ -319,65 +319,147 @@ def show_all_files():
     if st.button("Referesh Files"):
         st.rerun()
 
-    target_dir = upload_dir 
-    st.info("📂 Files Manager")
-    # Get list of files
-    file_list = [f for f in os.listdir(target_dir) if os.path.isfile(os.path.join(target_dir, f))]
-    if not file_list:
-        st.info("No files found in the directory.")
-    else:
-        
-        for file_name in file_list:
-            file_path = os.path.join(target_dir, file_name)
-            file_ext = os.path.splitext(file_name)[1].lower()
-            if file_ext not in [".mp4", ".csv"]: # , ".csv", ".txt"
-                continue
-            col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
-            # Display file name
-            with col1:
-                st.write(file_name)
-            # Display file type
-            with col2:
-                st.write(f"Type: {file_ext.upper()}")
-            # Display file size
-            with col3:
-                file_size = os.path.getsize(file_path)
-                st.write(f"Size: {file_size / 1024:.2f} KB")
+    # Upload multiple files
+    uploaded_files = st.file_uploader(
+        "Upload new files",
+        type=["mp4", "csv"],
+        accept_multiple_files = True,
+        key="multi_file_uploader"
+    )
 
-            # View file button
-            with col4:
-                if st.button("📂 View", key=f"view_file_{file_name}"):
-                    st.session_state['button2_5_2'] = 1
-            if st.session_state['button2_5_2'] == 1:
-                    st.session_state['button2_5_2'] = 0 
-                    if file_ext == ".mp4":
-                        st.video(file_path)
-                    elif file_ext == ".csv":
-                        # Read CSV using pandas
-                        df = pd.read_csv(file_path)
-                        # Change index to start from 1 instead of 0
-                        df.index = pd.Index(range(1, len(df) + 1))
-                        # Display the DataFrame
-                        st.dataframe(df)
-                    else:
-                        st.code(open(file_path).read())
+    # If files are uploaded, save them to the upload directory
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            save_path = os.path.join(upload_dir, uploaded_file.name)
+            with open(save_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
 
-            # Download button
+    target_dir = upload_dir
+    all_files = [];    files_csv = [];    files_mp4 = []
+    for f in sorted(os.listdir(target_dir)):
+        p = os.path.join(target_dir, f)
+        if os.path.isfile(p):
+            file_ext = os.path.splitext(f)[1].lower()
+            if file_ext == ".csv":
+                files_csv.append({"Name": f, "Type": "CSV", "Size (KB)": round(os.path.getsize(p)/(1024),2)})
+            elif file_ext == ".mp4":
+                files_mp4.append({"Name": f, "Type": "MP4", "Size (KB)": round(os.path.getsize(p)/(1024),2)})
+            # if file_ext in [".mp4", ".csv"]:
+            #     files.append({"Name": f, "Type": file_ext.upper(), "Size (KB)": round(os.path.getsize(p)/(1024),2)})
+    
+    all_files = files_csv + files_mp4  # Combine both lists
+
+    df = pd.DataFrame(all_files)
+
+    st.subheader("All Files")
+    st.dataframe(df, use_container_width=True, height=380)  # <- fixed height + scroll
+
+    # Pick a file to act on
+    choices = [row["Name"] for row in all_files]
+    selected = st.selectbox("Select a file", choices) if choices else None
+
+    if selected:
+        file_path = os.path.join(target_dir, selected)
+        file_ext = os.path.splitext(selected)[1].lower()
+        col1, col2, col3, col4, _ = st.columns([1, 0.9, 0.7, 1, 4])
+        with col1:
+            if st.button("📂 View/Unview", key=f"view_file_{selected}"):
+                if st.session_state['button2_5_2'] == 0:
+                    st.session_state['button2_5_2'] = selected
+                else:
+                    st.session_state['button2_5_2'] = 0
+        if st.session_state['button2_5_2'] == selected:
+            if file_ext == ".mp4":
+                st.video(file_path)
+            elif file_ext == ".csv":
+                # Read CSV using pandas
+                df = pd.read_csv(file_path)
+                # Change index to start from 1 instead of 0
+                df.index = pd.Index(range(1, len(df) + 1))
+                # Display the DataFrame
+                st.dataframe(df)
+            else:
+                st.code(open(file_path).read())
+
+        with col2:
             with open(file_path, "rb") as f:
-                file_bytes = f.read()
-                with col5:
-                    st.download_button(
-                        label="⬇️ Download",
-                        data=file_bytes,
-                        file_name=file_name,
-                        mime="application/octet-stream",
-                        key=f"download_file_{file_name}"
-                    )
-            # Delete button
-            with col6:
-                if st.button("🗑️ Delete", key=f"delete_file_{file_name}"):
-                    os.remove(file_path)
-                    st.success(f"Deleted: {file_name}")
-                    st.rerun()
+                st.download_button("⬇️ Download", f, file_name=selected,
+                                   mime="application/octet-stream")
 
+        with col3:
+            if st.button("🗑️ Delete"):
+                os.remove(file_path)
+                st.success(f"Deleted: {selected}")
+                st.rerun()
+        
+        with col4:
+            if st.button("🗑️ Delete All"):
+                for filename in os.listdir(target_dir):
+                    file_path = os.path.join(target_dir, filename)
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                st.success(f"Deleted: {selected}")
+                st.rerun()
 
+# def show_all_files2():
+#     # Referesh the page to show all files
+#     if st.button("Referesh Files"):
+#         st.rerun()
+# 
+#     target_dir = upload_dir 
+#     st.info("📂 Files Manager")
+#     # Get list of files
+#     file_list = [f for f in os.listdir(target_dir) if os.path.isfile(os.path.join(target_dir, f))]
+#     if not file_list:
+#         st.info("No files found in the directory.")
+#     else:
+#         for file_name in file_list:
+#             file_path = os.path.join(target_dir, file_name)
+#             file_ext = os.path.splitext(file_name)[1].lower()
+#             if file_ext not in [".mp4", ".csv"]: # , ".csv", ".txt"
+#                 continue
+#             col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
+#             # Display file name
+#             with col1:
+#                 st.write(file_name)
+#             # Display file type
+#             with col2:
+#                 st.write(f"Type: {file_ext.upper()}")
+#             # Display file size
+#             with col3:
+#                 file_size = os.path.getsize(file_path)
+#                 st.write(f"Size: {file_size / 1024:.2f} KB")
+#             # View file button
+#             with col4:
+#                 if st.button("📂 View", key=f"view_file_{file_name}"):
+#                     st.session_state['button2_5_2'] = 1
+#             if st.session_state['button2_5_2'] == 1:
+#                     st.session_state['button2_5_2'] = 0 
+#                     if file_ext == ".mp4":
+#                         st.video(file_path)
+#                     elif file_ext == ".csv":
+#                         # Read CSV using pandas
+#                         df = pd.read_csv(file_path)
+#                         # Change index to start from 1 instead of 0
+#                         df.index = pd.Index(range(1, len(df) + 1))
+#                         # Display the DataFrame
+#                         st.dataframe(df)
+#                     else:
+#                         st.code(open(file_path).read())
+#             # Download button
+#             with open(file_path, "rb") as f:
+#                 file_bytes = f.read()
+#                 with col5:
+#                     st.download_button(
+#                         label="⬇️ Download",
+#                         data=file_bytes,
+#                         file_name=file_name,
+#                         mime="application/octet-stream",
+#                         key=f"download_file_{file_name}"
+#                     )
+#             # Delete button
+#             with col6:
+#                 if st.button("🗑️ Delete", key=f"delete_file_{file_name}"):
+#                     os.remove(file_path)
+#                     st.success(f"Deleted: {file_name}")
+#                     st.rerun()

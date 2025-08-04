@@ -70,24 +70,25 @@ if platform == "YouTube":
         st.markdown("Use the buttons below to create a new data file or upload an existing one.")  
        
         # create two columns
-        col1, col2, col3 = st.columns([1, 1, 4])
+        col1, col2, col3 = st.columns([1.1, 1, 4])
         with col1:
-            if st.button("Create New Data File"):
-                st.session_state['button2_1_1'] = 1
-                st.session_state['button2_1_2'] = 0
-        with col2:
             if st.button("Upload Existing Data File"):
                 st.session_state['button2_1_1'] = 0
                 st.session_state['button2_1_2'] = 1
 
+        with col2:
+            if st.button("Create New Data File"):
+                st.session_state['button2_1_1'] = 1
+                st.session_state['button2_1_2'] = 0
+
         if st.session_state['button2_1_1'] == 1:
             st.info("Creating a new data file for your submission...")
             st.markdown("Please follow the instructions below to help you prepare your video submission data.")  
-            create_new_video_submission_file(MetadataExtractor_obj, parent_dir, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+            create_new_video_submission_file(MetadataExtractor_obj)  # Render the first tab for uploading CSV files and preparing submission data
 
         if st.session_state['button2_1_2'] == 1:
            st.info("Upload an existing data file...")
-           upload_video_submission_file(parent_dir, user_id)
+           upload_video_submission_file()
     
     with tab2:
         if st.button("Extract Metadata from Youtube"):
@@ -101,7 +102,7 @@ if platform == "YouTube":
                 if resp.status_code == 200:
                     st.success("✅ API key is valid!")
                     st.info("Extracting metadata for each video...")
-                    extract_metadata(parent_dir, user_API_KEY, user_id)  # Render the first tab for uploading CSV files and preparing submission data
+                    extract_metadata(user_API_KEY)  # Render the first tab for uploading CSV files and preparing submission data
                 else:
                     error = resp.json().get("error", {}).get("message", resp.text)
                     st.error(f"❌ Invalid key: {error}")
@@ -110,7 +111,7 @@ if platform == "YouTube":
             st.session_state['button2_3_1'] = 1
         if st.session_state['button2_3_1'] == 1: 
             st.info("Extracting metrics for each video...")
-            extract_metrics(parent_dir, user_id)
+            extract_metrics()
 
     with tab4:
         st.subheader("📤 Step 1: Upload your video files")
