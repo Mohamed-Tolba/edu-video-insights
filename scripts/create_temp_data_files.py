@@ -28,3 +28,11 @@ def create_new_characs_csv(file_path):
     with open(file_path, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(characs_file_fields)  # Header
+
+def create_train_dataset_csv(file_path):
+    train_dataset_fields = ['dataset_tag', 'video_id', 'duration_min', 'speaking_words_count',
+                            'avg_speaking_speed_wpm', 'scenes_count', 'avg_scene_change_per_min',
+                            'average_percentage_viewed']
+    with open(file_path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(train_dataset_fields)  # Header

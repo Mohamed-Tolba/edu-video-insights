@@ -157,17 +157,16 @@ if __name__ == "__main__":
     model = MultipleLinearRegression()
     
     # Load the data set
-    # characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'
-    # characs_file_handler = CSVHandler(characs_file_path)
-    # metrics_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metrics.csv'
-    # metrics_file_handler = CSVHandler(metrics_file_path)
-    # dataset_tag_train = "newcastle_mech1750_lecture_level1_agregg_2025"
-
-    characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'
+    characs_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_characs.csv'
     characs_file_handler = CSVHandler(characs_file_path)
-    metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
+    metrics_file_path = parent_dir + '/' + 'temp/MECH1750_Lectures_metrics.csv'
     metrics_file_handler = CSVHandler(metrics_file_path)
-    dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
+    dataset_tag_train = "newcastle_mech1750_lecture_level1_agregg_2025"
+    # characs_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_characs.csv'
+    # characs_file_handler = CSVHandler(characs_file_path)
+    # metrics_file_path = parent_dir + '/' + 'temp/ENGG2240_Lectures_metrics.csv'
+    # metrics_file_handler = CSVHandler(metrics_file_path)
+    # dataset_tag_train = "newcastle_engg2440_lecture_level2_agregg_2025"
     video_ids = characs_file_handler.df['video_id'].tolist()  # Fetch all video IDs from the video submission file 
 
     i = 0; X_rows = []; y_train = []
