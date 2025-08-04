@@ -127,6 +127,7 @@ def model_fit(train_dataset_file_path, dataset_tag_train):
 
     ## Scale/normalize the training data
     X_norm = model.zscore_normalize_features(X_train)
+    # X_norm = model.mean_normalize_features(X_train)  # Mean normalisation
     print(f"Peak to Peak range by column in Raw        X: {np.ptp(X_train,axis=0)}")   
     print(f"Peak to Peak range by column in Normalized X: {np.ptp(X_norm,axis=0)}")
     # The scatter plots below can provide some indication of which features have the strongest influence on the output
@@ -157,6 +158,7 @@ def model_fit(train_dataset_file_path, dataset_tag_train):
                     transform=axes[1, i].transAxes,
                     horizontalalignment='right', verticalalignment='bottom',
                     bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+        axes[1, i].set_xlim(-1, 1)
     axes[1, 0].set_ylabel("Average Percentage Viewed (%)")
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()

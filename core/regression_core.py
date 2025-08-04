@@ -1,3 +1,8 @@
+"""
+Validate and test the K-fold cross-validation implementation
+"""
+
+
 import copy, math  # Math library for mathematical functions
 import numpy as np # NumPy, a popular library for scientific computing
 np.set_printoptions(precision = 2)  # reduced display precision on numpy arrays
@@ -35,6 +40,26 @@ class MultipleLinearRegression:
         sigma  = np.std(X, axis=0)                  # sigma will have shape (n,)
         # element-wise, subtract mu for that column from each example, divide by std for that column
         X_norm = (X - mu) / sigma      
+
+        return (X_norm)
+    
+    def mean_normalize_features(self, X):
+        """
+        computes  X, mean normalized by column
+
+        Args:
+          X (ndarray (m,n))     : input data, m examples, n features
+
+        Returns:
+          X_norm (ndarray (m,n)): input normalized by column
+          mu (ndarray (n,))     : mean of each feature
+        """
+        # find the mean of each column/feature
+        mu = np.mean(X, axis=0)                 # mu will have shape (n,)
+        max = np.max(X, axis=0)  # max of each column
+        min = np.min(X, axis=0)  # min of each column
+        # element-wise, subtract mu for that column from each example
+        X_norm = (X - mu) / (max - min)
 
         return (X_norm)
     
@@ -151,6 +176,76 @@ class MultipleLinearRegression:
       r2 = 1 - np.sum((y_true - y_pred) ** 2) / np.sum((y_true - np.mean(y_true)) ** 2) # R-squared (Coefficient of Determination)
       # R2 = 1 is perfect; R2 = 0 means tmodel is as good as the mean.
       return mse, rmse, mae, r2
+    
+    def k_fold_cv(self, X, y, k=5, alpha=0.92, num_iters=2000,
+              shuffle=True, seed=None, normalise="zscore",
+              plot=False, metric="RMSE"):
+      rng = np.random.default_rng(seed)
+      m = X.shape[0]
+      idx = np.arange(m)
+      if shuffle: rng.shuffle(idx)
+      folds = np.array_split(idx, k)
+
+      fold_metrics, fold_params = [], []
+
+      for f in range(k):
+          val_idx = folds[f]
+          train_idx = np.hstack([folds[i] for i in range(k) if i != f])
+
+          X_tr, y_tr = X[train_idx], y[train_idx]
+          X_va, y_va = X[val_idx], y[val_idx]
+
+          if normalise == "zscore":
+              mu, sigma = X_tr.mean(axis=0), X_tr.std(axis=0); sigma[sigma == 0] = 1.0
+              X_tr_n = (X_tr - mu) / sigma
+              X_va_n = (X_va - mu) / sigma
+          elif normalise == "mean":
+              mu = X_tr.mean(axis=0); rng_ = (X_tr.max(axis=0) - X_tr.min(axis=0)); rng_[rng_ == 0] = 1.0
+              X_tr_n = (X_tr - mu) / rng_
+              X_va_n = (X_va - mu) / rng_
+          else:
+              X_tr_n, X_va_n = X_tr, X_va
+
+          n = X.shape[1]
+          w0 = np.zeros(n); b0 = 0.0
+          w, b, _ = self.gradient_descent(
+              X_tr_n, y_tr, w0, b0,
+              cost_function=self.compute_cost,
+              gradient_function=self.compute_gradient,
+              alpha=alpha, num_iters=num_iters
+          )
+
+          y_hat = self.predict(X_va_n, w, b)
+          mse, rmse, mae, r2 = self.evaluate_model(y_va, y_hat)
+          fold_metrics.append({"fold": f+1, "MSE": mse, "RMSE": rmse, "MAE": mae, "R2": r2})
+          fold_params.append((w, b))
+
+      keys = ["MSE","RMSE","MAE","R2"]
+      means = {k_: float(np.mean([fm[k_] for fm in fold_metrics])) for k_ in keys}
+      stds  = {k_: float(np.std( [fm[k_] for fm in fold_metrics], ddof=1)) for k_ in keys}
+
+      result = {"per_fold": fold_metrics, "mean": means, "std": stds, "params": fold_params}
+
+      if plot:
+          scores = [fm[metric] for fm in fold_metrics]
+          mean_score = np.mean(scores)
+
+          # 1) Bar chart per fold + mean line
+          fig_bar = plt.figure()
+          plt.bar(range(1, len(scores)+1), scores)
+          plt.axhline(mean_score, linestyle="--")
+          plt.title(f"K-fold {metric}")
+          plt.xlabel("Fold"); plt.ylabel(metric)
+
+          # 2) Box plot of scores
+          fig_box = plt.figure()
+          plt.boxplot(scores, vert=True, labels=[metric])
+          plt.title(f"{metric} distribution across folds")
+          plt.ylabel(metric)
+
+          result["figs"] = {"per_fold_bar": fig_bar, "boxplot": fig_box}
+
+      return result
         
 if __name__ == "__main__":
     # Example usage of the LinearUnivariateRegression class
@@ -289,3 +384,7 @@ if __name__ == "__main__":
     ax[0].set_ylabel("Average Percentage Viewed (%)"); ax[0].legend()
     fig.suptitle("Target versus prediction using z-score normalised model")
     plt.show()
+
+    cv = model.k_fold_cv(X_train, y_train, k=5, alpha=0.8, num_iters=2000, normalise="zscore")
+    print("CV mean:", cv["mean"])
+    print("CV std :", cv["std"])
