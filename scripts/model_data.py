@@ -164,11 +164,12 @@ def explore_data_trends(X, y, X_features, y_label):
         data = X[:,i]
         # A histogran is a plot that shows the distribution of a numeric variable by dividing the data into bins (intervals) 
         # and counting how many values fall into each bin. X-axis: value ranges (bins). Y-axis: frequency (counts)
+        axes[1, i].grid(True)
         axes[1, i].hist(data, x_bins_number, facecolor='skyblue', edgecolor='black', linewidth=1.2)
         axes[1, i].set_xlabel(X_features[i])
         axes[1, i].set_ylabel("Number of videos")
         # axes[1, i].set_title(f'Normalised Data {i+1}')
-        axes[1, i].grid(True)
+        #axes[1, i].grid(True)
     # axes[1, 0].set_ylabel("Number of videos")
     # plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.savefig(f"Figure_2_All_{x_bins_number}bins.pdf", bbox_inches='tight')
@@ -214,7 +215,7 @@ def visualise_feature_trends(X, y, feature_names, y_label="Target Output"):
     # .drop(y_label): Removes the correlation of y_label with itself (which is always 1.0).
     # The .corr() method (by default) computes the Pearson correlation coefficient between each pair of numeric columns.
     # Ranges from –1 to +1; Measures linear association; +1 = perfect positive linear correlation; 0 = no linear correlation; –1 = perfect negative linear correlation
-    plt.figure(figsize=(3.5, 2.5))
+    plt.figure(figsize=(7, 2))
     colors = ['blue' if val > 0 else 'red' for val in correlations]
     sns.barplot(x=correlations.values, y=correlations.index, palette=colors)
     plt.title(f'Correlation with {y_label}')
@@ -255,16 +256,16 @@ def visualise_feature_trends(X, y, feature_names, y_label="Target Output"):
 
         loess_smoothed = lowess(endog=df[y_label], exog=x_vals, frac=0.3) # Locally Weighted Scatterplot Smoothing (LOESS) of y vesus x
         # It's a non-parametric regression technique that fits local linear regressions to smooth a curve through noisy data.
+        axes[i].grid(True)
         axes[i].scatter(x_vals, df[y_label], s=10, marker='o', c='blue', alpha=0.3) # s: marker size
         axes[i].plot(loess_smoothed[:, 0], loess_smoothed[:, 1], color='red')
-        axes[i].set_title(f"{feature} (LOESS)")
+        #axes[i].set_title(f"{feature} (LOESS)")
         axes[i].set_xlabel(feature)
         axes[i].set_ylabel(y_label)
-        axes[i].grid(True)
-        axes[i].text(0.95, 0.05, f'Mean = {mu:.2f}\nStd = {sigma:.2f}', 
-                    transform=axes[i].transAxes,
-                    horizontalalignment='right', verticalalignment='bottom',
-                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+        # axes[i].text(0.95, 0.05, f'Mean = {mu:.2f}\nStd = {sigma:.2f}', 
+        #             transform=axes[i].transAxes,
+        #             horizontalalignment='right', verticalalignment='bottom',
+        #             bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
     plt.savefig(f"Figure_5_All_{x_bins_number}bins.pdf", bbox_inches='tight')
     plt.show()
 

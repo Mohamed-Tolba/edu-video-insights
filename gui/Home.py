@@ -48,7 +48,7 @@ st.markdown("""<br>""", unsafe_allow_html=True)  # Add a line break for spacing
 
 st.markdown("""            
 <p style="font-family:sans serif; font-size:25px; color:#FFFFFF;">
-👨‍🔧 Educational Video Analysis Tool by <a href="Mohamed Tolba" style="color:#FFFFFF;">Mohamed Tolba</a>.<br>
+👨‍🔧 Educational Video Analysis Tool by <a href="Mohamed Tolba" style="color:#FFFFFF;">Authors</a>.<br>
 </p>""", unsafe_allow_html=True)
 
 st.markdown("""            
