@@ -8,14 +8,14 @@ from scripts.create_temp_data_files import *
 from scripts.extract_metrics import *  # Import the function to extract metrics 
 from scripts.extract_characteristics import *  # Import the function to extract characteristics
 
-upload_dir = parent_dir + '/' + 'temp/user_data'
+upload_dir = parent_dir + '/' + 'temp/user_data' # The parent_dir is defined in page2.py
 user_data_file_path = upload_dir + '/' + 'user_data.csv'
 video_submission_file_path = upload_dir + '/' + 'video_submission.csv'
 new_metadata_file_path = upload_dir + '/' + 'new_metadata.csv'
 new_metrics_file_path = upload_dir + '/' + 'new_metrics.csv'
 new_characs_file_path = parent_dir + '/' + 'new_characs.csv'  # Path to the new metadata file
 
-def create_new_video_submission_file(MetadataExtractor_obj):
+def create_new_video_submission_file(MetadataExtractor_obj): 
     """
     Render the first tab for uploading CSV files and preparing submission data.
     """

@@ -8,11 +8,11 @@ sys.path.append(parent_dir) # Add to Python module search path
 from core.keys_manager import load_api_key  # Import the function to load the API key
 from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
 # Load gui functions
+from gui.utilities import load_css  # Import a function to load custom CSS
+load_css(parent_dir)
 from gui.sidebar import add_sidebar  # Import the function to add the sidebar
 add_sidebar(parent_dir)             # Add the sidebar to the Streamlit app
 from gui.tabs.page2_tabs import *  # Import the function to render the first tab
-from gui.utilities import load_css  # Import a function to load custom CSS
-load_css(parent_dir)
 # --------------------------------------------------------------------------------------------------------
 # Load the YouTube Data API key ---------------------------------------------------------------------------
 API_KEY = load_api_key(parent_dir + '/' + "keys/youtube_data_API_key.txt")  # Load the YouTube Data API key from the specified file
