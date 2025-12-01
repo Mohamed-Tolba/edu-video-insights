@@ -1,11 +1,16 @@
 import streamlit as st
 import sys, os
-from utilities import load_css
-load_css()
+
 # --------------------------------------------------------------------------------------------------------
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')) # Build the absolute path to the parent directory
 sys.path.append(parent_dir) # Add to Python module search path
-
+# --------------------------------------------------------------------------------------------------------
+from gui.utilities import load_css  # Import a function to load custom CSS
+load_css(parent_dir)
+# --------------------------------------------------------------------------------------------------------
+from gui.sidebar import add_sidebar  # Import the function to add the sidebar
+add_sidebar(parent_dir)
+# --------------------------------------------------------------------------------------------------------
 # Set the page configuration for the Streamlit app -------------------------------------------------------
 st.set_page_config(
     page_title="Dataset Construction",
@@ -16,7 +21,3 @@ st.set_page_config(
 # Page title
 st.header("🛢️ Dataset Construction")
 # st.header
-# --------------------------------------------------------------------------------------------------------
-from gui.sidebar import add_sidebar  # Import the function to add the sidebar
-add_sidebar(parent_dir)
-# --------------------------------------------------------------------------------------------------------
