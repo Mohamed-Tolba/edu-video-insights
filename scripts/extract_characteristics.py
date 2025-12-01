@@ -21,7 +21,7 @@ sys.path.append(parent_dir)
 # from core.keys_manager import load_api_key  # Import the function to load the API key
 # from core.metadata_core import MetadataExtractor  # Import the MetadataExtractor class from the core module
 
-from core.characteristics_core import CharacsExtractor
+from core.characteristics_core import CharacsExtractor 
 from core.csv_utils import CSVHandler  # Import the CSVHandler class for managing CSV files
 from scripts.create_temp_data_files import *
 
