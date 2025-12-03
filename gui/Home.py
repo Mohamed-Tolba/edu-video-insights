@@ -18,6 +18,7 @@ To do:
 """
 # Streamlit is a tool that lets you turn your Python scripts into interactive web apps — easily, quickly, and with very little code.
 # streamlit run Home.py
+# https://edu-video-insights.streamlit.app/
 # An app with a UI design that I like: https://dezoomcamp.streamlit.app/
 # An app for streamlit cheatsheet: https://docs.streamlit.io/develop/quick-reference/cheat-sheet
 
