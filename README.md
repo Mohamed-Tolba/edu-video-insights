@@ -29,4 +29,4 @@ This directory contains supporting documentation files for the `edu-video-insigh
 To install the required Python packages for this project, run the following command in your terminal:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt 
