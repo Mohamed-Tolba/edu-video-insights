@@ -7,6 +7,14 @@ Whether you're an educator, researcher, or developer, this project offers a coll
 
 This directory contains supporting documentation files for the `edu-video-insights` project. Use these resources to understand the data structure, contribution process, tagging conventions, and validation requirements.
 
+### 📚 Open Dataset Access
+
+- [Metadata](data/all_metadata.csv)
+- [Characteristics](data/all_characs.csv)
+- [Metrics](data/all_metrics.csv)
+- [Trainning Dataset](data/all_train_dataset.csv)
+- [Contribution Guide](docs/CONTRIBUTING.md)
+  
 ### 📚 Documentation Index
 
 - [Submission Schema](docs/SUBMISSION_SCHEMA.md)
