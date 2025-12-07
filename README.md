@@ -15,18 +15,6 @@ This directory contains supporting documentation files for the `edu-video-insigh
 - [Trainning Dataset](data/all_train_dataset.csv)
 - [Contribution Guide](docs/CONTRIBUTING.md)
   
-### 📚 Documentation Index
+### 📚 Contribution Guide
 
-- [Submission Schema](docs/SUBMISSION_SCHEMA.md)
-- [Metadata Schema](docs/SCHEMA_METADATA.md)
-- [Characteristics Schema](docs/SCHEMA_CHARACS.md)
-- [Metrics Schema](docs/SCHEMA_METRICS.md)
-- [Contribution Guide](docs/CONTRIBUTING.md)
-- [Dataset Tag Convention](docs/METADATA_TAGS.md)
-
-### ⚙️ Environment Setup
-
-To install the required Python packages for this project, run the following command in your terminal:
-
-```bash
-pip install -r requirements.txt 
+- Please, fill in this form and we will get in touch with you [Submission Schema](https://forms.gle/yVskdHrMPjYwqnyb6)
