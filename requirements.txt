@@ -13,4 +13,4 @@ opencv-python-headless==4.12.0.88
 #opencv-python==4.12.0.88
 #moviepy       # For extracting audio from video
 #parselmouth   # For pitch analysis using Praat
-# System dependency: ffmpeg must be installed separately
+# System dependency: ffmpeg must be installed separately 
