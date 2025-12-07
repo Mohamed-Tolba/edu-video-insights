@@ -1,4 +1,4 @@
-# edu-video-insights
+# edu-video-insights (Under Development)
 A collaborative, open-source project for extracting and analysing insights from educational videos.
 
 **Edu-Video-Insights** is an open-source research project focused on understanding how the design of educational videos influences student engagement and retention. The repository provides a structured dataset of educational video metadata, automatically extracted video/audio characteristics, and public engagement metrics. It also includes tools for collecting, analysing, and extending this dataset, with the goal of supporting data-driven improvements in video-based learning across higher education.
