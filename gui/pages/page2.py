@@ -71,7 +71,7 @@ if platform == "YouTube":
         st.markdown("Use the buttons below to create a new data file or upload an existing one.")  
        
         # create two columns
-        col1, col2, col3 = st.columns([1.1, 1, 4])
+        col1, col2, col3 = st.columns([1.2, 1, 4])
         with col1:
             if st.button("Upload Existing Data File"):
                 st.session_state['button2_1_1'] = 0
