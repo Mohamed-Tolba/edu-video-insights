@@ -17,4 +17,4 @@ This directory contains supporting documentation files for the `edu-video-insigh
   
 ### 📚 Contribution Guide
 
-- Please, fill in this form and we will get in touch with you [EOI Form](https://forms.gle/yVskdHrMPjYwqnyb6)
+- Please, fill in this [EOI Form](https://forms.gle/yVskdHrMPjYwqnyb6) and we will get in touch with you.
