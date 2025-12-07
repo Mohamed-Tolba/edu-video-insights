@@ -12,8 +12,7 @@ This directory contains supporting documentation files for the `edu-video-insigh
 - [Metadata](data/all_metadata.csv)
 - [Characteristics](data/all_characs.csv)
 - [Metrics](data/all_metrics.csv)
-- [Trainning Dataset](data/all_train_dataset.csv)
-- [Contribution Guide](docs/CONTRIBUTING.md)
+- [Training Datasets](data/all_train_dataset.csv)
   
 ### 📚 Contribution Guide
 
