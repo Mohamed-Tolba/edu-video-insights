@@ -20,5 +20,6 @@ st.set_page_config(
 )
 # Page title
 st.header("🔍 Exploratory Data Analysis (EDA)")
+st.info("This page is under development. Stay tuned for updates!")
 # st.header
 # --------------------------------------------------------------------------------------------------------
