@@ -19,4 +19,4 @@ This directory contains supporting documentation files for the `edu-video-insigh
 - Please, fill in this [EOI Form](https://forms.gle/yVskdHrMPjYwqnyb6) and we will get in touch with you.
 
 ### 📚 EduVideo Insights Web App
-- Click on this [link][https://edu-video-insights.streamlit.app/] to access the EduVideo Insights Web App (Under Development)
+- Click on this [link](https://edu-video-insights.streamlit.app/) to access the EduVideo Insights Web App (Under Development)
